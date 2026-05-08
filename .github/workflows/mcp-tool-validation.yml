@@ -1,0 +1,77 @@
+name: MCP Tool Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '**/mcps.json'
+      - '**/skills/*/SKILL.md'
+  push:
+    branches: [main]
+    paths:
+      - '**/mcps.json'
+      - '**/skills/*/SKILL.md'
+  workflow_dispatch:
+
+jobs:
+  mcp-tool-check:
+    if: github.event.pull_request.draft == false || github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install podman
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq podman
+
+      - name: Create Kind cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: mcp-validation
+          wait: 60s
+
+      - name: Detect changed packs
+        if: github.event_name == 'pull_request'
+        id: detect
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+        run: |
+          chmod +x scripts/detect-changed-packs.sh
+          CHANGED_PACKS=$(./scripts/detect-changed-packs.sh || true)
+          if [ -z "$CHANGED_PACKS" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "packs=$(echo $CHANGED_PACKS | tr '\n' ' ')" >> $GITHUB_OUTPUT
+            echo "Changed packs: $CHANGED_PACKS"
+          fi
+
+      - name: Validate MCP tools
+        env:
+          KUBECONFIG: ${{ env.KUBECONFIG }}
+        run: |
+          chmod +x scripts/validate-mcp-tools.sh
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            if [ "${{ steps.detect.outputs.changed }}" = "true" ]; then
+              echo "Validating changed packs: ${{ steps.detect.outputs.packs }}"
+              ./scripts/validate-mcp-tools.sh ${{ steps.detect.outputs.packs }}
+            else
+              echo "No packs changed, skipping"
+              exit 0
+            fi
+          else
+            echo "Validating all packs..."
+            ./scripts/validate-mcp-tools.sh
+          fi
