@@ -40,7 +40,8 @@ Structured incident investigation for OpenShift — traces from symptoms to root
 ## Prerequisites
 
 **Required MCP Servers:**
-- `openshift` ([setup](../../docs/prerequisites.md)) — Kubernetes/OpenShift resource access
+- `openshift` ([setup](docs/prerequisites.md)) — Kubernetes/OpenShift resource access
+- `observability` — Prometheus metric discovery and PromQL query execution
 
 **Required MCP Tools:**
 - `resources_get` (from openshift) — Retrieve Deployment, ReplicaSet, Pod, Service, and other resource details
@@ -454,7 +455,8 @@ Select an option:
 ## Dependencies
 
 ### Required MCP Servers
-- `openshift` — Kubernetes/OpenShift resource access for Deployments, Pods, Events, Services, and cluster resources ([setup](../../docs/prerequisites.md))
+- `openshift` — Kubernetes/OpenShift resource access for Deployments, Pods, Events, Services, and cluster resources ([setup](docs/prerequisites.md))
+- `observability` — Prometheus metric discovery, metadata, series, and PromQL query execution
 
 ### Required MCP Tools
 - `resources_get` (from openshift) — Retrieve individual resource details
@@ -475,7 +477,7 @@ Select an option:
 - `/deploy` — Redeployment after fixes
 
 ### Reference Documentation
-- **Internal:** [docs/debugging-patterns.md](../../docs/debugging-patterns.md) — Common error patterns and troubleshooting trees
+- **Internal:** [docs/debugging-patterns.md](docs/debugging-patterns.md) — Common error patterns and troubleshooting trees
 - **Official:** [OpenShift Troubleshooting](https://docs.openshift.com/container-platform/latest/support/troubleshooting/troubleshooting-operator-issues.html)
 
 ## Example Usage

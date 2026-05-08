@@ -1,0 +1,1 @@
+../../deploy/docs/debugging-patterns.md
