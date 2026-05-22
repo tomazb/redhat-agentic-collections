@@ -10,11 +10,13 @@
 
 ## Pack(s) affected
 
-- [ ] `rh-sre`
-- [ ] `rh-developer`
 - [ ] `ocp-admin`
-- [ ] `rh-virt`
 - [ ] `rh-ai-engineer`
+- [ ] `rh-automation`
+- [ ] `rh-basic`
+- [ ] `rh-developer`
+- [ ] `rh-sre`
+- [ ] `rh-virt`
 - [ ] Other / repo-wide
 
 ## Change type
@@ -26,6 +28,7 @@
 - [ ] MCP server config (`mcps.json`)
 - [ ] Docs / README
 - [ ] CI / tooling
+- [ ] Federation (external pack)
 
 ## Contribution method
 

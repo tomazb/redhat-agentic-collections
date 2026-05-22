@@ -151,9 +151,24 @@ Reading ./my-skills/cluster-backup/SKILL.md...
 Analyzed: ./my-skills/cluster-backup/SKILL.md
 Name: cluster-backup | Lines: 180 | Frontmatter: needs-fixes (missing model, color)
 Suggested pack: ocp-admin (keywords: cluster, etcd, backup, restore)
+
+No color in frontmatter. Analyzing operations...
+Inferred color: red — Reason: skill performs etcd backup and restore, which are irreversible operations
+Confirm? (yes/override)
+> yes
+
+Reading ocp-admin/mcps.json...
+MCP tools referenced: resources_get, pods_exec, pods_log
+✅ All 3 tools found in openshift-administration MCP server
+
+Analyzed: ./my-skills/cluster-backup/SKILL.md
+Name: cluster-backup | Lines: 180 | Frontmatter: needs-fixes (missing model, color)
+Suggested pack: ocp-admin (keywords: cluster, etcd, backup, restore)
+Color: red (inferred)
+MCP tools: 3 verified, 0 not found
 Missing sections: Prerequisites, Dependencies
 
-Proceed with adaptation? (yes/no)
+Proceed with adaptation? (yes/no/try another file)
 > yes
 
 Reading SKILL_DESIGN_PRINCIPLES.md for compliant adaptation...
@@ -161,7 +176,7 @@ Reading SKILL_DESIGN_PRINCIPLES.md for compliant adaptation...
 
 Adapting skill:
 ✅ Added model: inherit
-✅ Added color: red (critical/irreversible operation)
+✅ Added color: red (confirmed by user)
 ✅ Added Prerequisites section with verification
 ✅ Added Dependencies section (MCP servers, tools)
 ✅ Fixed section ordering per DP7

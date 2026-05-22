@@ -136,25 +136,39 @@ Ask concisely, validate before proceeding. Make additional questions if needed t
    | cluster, install, Assisted Installer, multi-cluster, ROSA | ocp-admin |
    | model, inference, GPU, vLLM, KServe, RHOAI, workbench | rh-ai-engineer |
    | Ansible, AAP, playbook, governance, job template | rh-automation |
+   | CVE explanation, product lifecycle, support severity, diagnostics, patching | rh-basic |
 
    - Present top match with reasoning: "This skill mentions X, Y, Z which aligns with `<pack>` (persona: <role>)"
    - Ask user to confirm or override
 
-4. **Report analysis**:
+4. **Color inference**: If frontmatter has no `color`, analyze the skill's workflow steps and operations to infer the risk level. Present your conclusion to the user:
+   ```
+   Inferred color: <color> — Reason: <operations are read-only/additive/destructive/etc.>
+   Confirm? (yes/override)
+   ```
+   Use the color mapping table from Phase 1 (Discovery).
+
+5. **MCP tool verification**: Identify all MCP tools referenced in the skill. Read the target pack's `mcps.json` and verify each tool exists. Flag any tools not found — they may need a new MCP server or the skill may need adaptation.
+
+6. **Report analysis**:
    ```
    Analyzed: <path>
    Name: <name> | Lines: <N> | Frontmatter: <valid/needs-fixes>
    Suggested pack: <pack> (keywords: <matched>)
+   Color: <color> (<inferred or from frontmatter>)
+   MCP tools: <N verified, M not found>
    Missing sections: <list or "none">
    
-   Proceed with adaptation? (yes/no)
+   Proceed with adaptation? (yes/no/try another file)
    ```
+
+   If user says **no**: ask "Would you like to try a different file, or cancel?" and act accordingly.
 
 ### Phase 2-Import: Adaptation (import mode only)
 
 **Document Consultation** (REQUIRED): Read [SKILL_DESIGN_PRINCIPLES.md](../../../SKILL_DESIGN_PRINCIPLES.md) using Read tool. Output: "I consulted SKILL_DESIGN_PRINCIPLES.md to ensure compliant adaptation."
 
-1. **Fix frontmatter**: Ensure `model: inherit` and `color` set (infer from operation type: read-only=cyan, additive=green, reversible=blue, destructive=yellow/red). Add `metadata` block if missing
+1. **Fix frontmatter**: Ensure `model: inherit` and `color` set (use value confirmed by user in Phase 1-Import). Add `metadata` block if missing
 2. **Add missing sections**: Per DP6/DP7 — Prerequisites, When to Use, Workflow, Common Issues, Dependencies. Keep existing content, add structure around it
 3. **Validate naming**: kebab-case, check uniqueness: `test -d <pack>/skills/<name>/`
 4. **Place file**: Copy to `<pack>/skills/<skill-name>/SKILL.md`
