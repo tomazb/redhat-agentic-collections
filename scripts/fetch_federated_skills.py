@@ -130,20 +130,20 @@ def process_module(
 
     result.clone_ok = True
     result.clone_path = str(clone_dest)
+    pack_root = clone_dest / pack_path
 
     if not validate:
         return result
 
     for sp in skill_paths:
-        skill_dir = clone_dest / Path(sp).parent if sp.endswith("/SKILL.md") else clone_dest / sp
         if sp.endswith("/SKILL.md"):
-            skill_dir = clone_dest / Path(sp).parent
+            skill_dir = pack_root / Path(sp).parent
         else:
-            skill_dir = clone_dest / sp
+            skill_dir = pack_root / sp
             if skill_dir.is_file():
                 skill_dir = skill_dir.parent
 
-        sr = validate_skill(skill_dir, clone_dest)
+        sr = validate_skill(skill_dir, pack_root)
         result.skills.append(sr)
 
     return result
