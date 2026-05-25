@@ -18,6 +18,7 @@ description: |
 model: inherit
 color: blue
 license: Apache-2.0
+allowed-tools: mcp__openshift__resources_get mcp__openshift__resources_list mcp__openshift__resources_create_or_update mcp__openshift__resources_delete mcp__openshift__pods_list mcp__openshift__pods_log mcp__openshift__events_list mcp__rhoai__list_inference_services mcp__rhoai__get_inference_service mcp__rhoai__get_model_endpoint mcp__rhoai__test_model_endpoint mcp__rhoai__deploy_model mcp__rhoai__list_serving_runtimes mcp__rhoai__recommend_serving_runtime mcp__ai-observability__execute_promql mcp__ai-observability__analyze_vllm
 ---
 
 # /guardrails-config Skill

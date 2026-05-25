@@ -17,6 +17,7 @@ description: |
 color: cyan
 model: inherit
 license: Apache-2.0
+allowed-tools: mcp__openshift__resources_create_or_update mcp__openshift__resources_get mcp__openshift__resources_list mcp__rhoai__list_registered_models mcp__rhoai__get_registered_model mcp__rhoai__list_model_versions mcp__rhoai__get_model_version mcp__rhoai__get_model_artifacts mcp__rhoai__get_model_benchmarks mcp__rhoai__get_catalog_model_artifacts mcp__rhoai__list_data_science_projects mcp__rhoai__list_data_connections
 ---
 
 # /model-registry Skill

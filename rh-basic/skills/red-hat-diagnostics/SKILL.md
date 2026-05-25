@@ -5,6 +5,7 @@ license: Apache-2.0
 user_invocable: true
 model: inherit
 color: cyan
+allowed-tools:
 ---
 
 # Red Hat Diagnostic Information Gathering

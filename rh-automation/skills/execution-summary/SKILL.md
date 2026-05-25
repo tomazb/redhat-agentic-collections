@@ -13,6 +13,7 @@ description: |
 model: inherit
 color: green
 license: Apache-2.0
+allowed-tools:
 ---
 
 # Execution Summary

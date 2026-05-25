@@ -14,6 +14,7 @@ description: |
 model: inherit
 color: red
 license: Apache-2.0
+allowed-tools: mcp__aap-mcp-job-management__workflow_job_templates_list mcp__aap-mcp-job-management__job_templates_list mcp__aap-mcp-configuration__notification_templates_list mcp__aap-mcp-configuration__execution_environments_list mcp__aap-mcp-configuration__notification_templates_create mcp__aap-mcp-configuration__execution_environments_create mcp__aap-mcp-user-management__users_list mcp__aap-mcp-user-management__teams_list mcp__aap-mcp-user-management__role_user_assignments_list mcp__aap-mcp-user-management__role_team_assignments_list mcp__aap-mcp-user-management__authenticators_list mcp__aap-mcp-user-management__teams_create mcp__aap-mcp-user-management__role_user_assignments_create mcp__aap-mcp-user-management__authenticators_create mcp__aap-mcp-security-compliance__credentials_list mcp__aap-mcp-security-compliance__credential_types_list mcp__aap-mcp-security-compliance__credentials_create mcp__aap-mcp-system-monitoring__instance_groups_list mcp__aap-mcp-system-monitoring__activity_stream_list mcp__aap-mcp-system-monitoring__instance_groups_create mcp__aap-mcp-inventory-management__inventories_list mcp__aap-mcp-inventory-management__hosts_list
 ---
 
 # Governance Readiness Assessor

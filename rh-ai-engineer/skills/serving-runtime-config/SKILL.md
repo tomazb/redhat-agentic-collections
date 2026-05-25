@@ -17,6 +17,7 @@ description: |
 model: inherit
 color: blue
 license: Apache-2.0
+allowed-tools: mcp__openshift__resources_get mcp__openshift__resources_list mcp__openshift__resources_create_or_update mcp__rhoai__list_serving_runtimes mcp__rhoai__create_serving_runtime mcp__rhoai__list_data_science_projects mcp__ai-observability__list_models
 ---
 
 # /serving-runtime-config Skill

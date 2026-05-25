@@ -5,6 +5,7 @@ description: |
 model: inherit
 color: cyan
 license: Apache-2.0
+allowed-tools:
 metadata:
   user_invocable: "true"
 ---

@@ -17,6 +17,7 @@ description: |
 model: inherit
 color: yellow
 license: Apache-2.0
+allowed-tools: mcp__openshift__resources_get mcp__openshift__resources_list mcp__openshift__pods_list mcp__openshift__pods_log mcp__openshift__events_list mcp__rhoai__list_inference_services mcp__rhoai__get_inference_service mcp__rhoai__get_model_endpoint mcp__ai-observability__get_deployment_info mcp__ai-observability__analyze_vllm mcp__ai-observability__chat_vllm mcp__ai-observability__get_gpu_info mcp__ai-observability__analyze_openshift mcp__ai-observability__query_tempo_tool mcp__ai-observability__get_trace_details_tool mcp__ai-observability__execute_promql mcp__ai-observability__korrel8r_get_correlated
 ---
 
 # /debug-inference Skill

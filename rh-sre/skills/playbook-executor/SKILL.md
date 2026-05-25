@@ -15,6 +15,7 @@ description: |
 model: inherit
 color: red
 license: Apache-2.0
+allowed-tools: mcp__aap-mcp-job-management__job_templates_list mcp__aap-mcp-job-management__job_templates_retrieve mcp__aap-mcp-job-management__projects_list mcp__aap-mcp-job-management__job_templates_launch_retrieve mcp__aap-mcp-job-management__jobs_retrieve mcp__aap-mcp-job-management__jobs_stdout_retrieve mcp__aap-mcp-job-management__jobs_job_events_list mcp__aap-mcp-job-management__jobs_job_host_summaries_list mcp__aap-mcp-job-management__jobs_relaunch_retrieve mcp__aap-mcp-inventory-management__inventories_list mcp__aap-mcp-inventory-management__hosts_list
 ---
 
 # AAP Playbook Executor Skill

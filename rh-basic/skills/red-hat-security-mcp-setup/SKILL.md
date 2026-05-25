@@ -5,6 +5,7 @@ license: Apache-2.0
 user_invocable: true
 model: inherit
 color: blue
+allowed-tools:
 ---
 
 # Red Hat Security MCP Setup

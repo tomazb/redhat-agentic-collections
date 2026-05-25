@@ -23,6 +23,7 @@ metadata:
   author: "Red Hat Ecosystem Engineering"
   priority: "high"
 license: Apache-2.0
+allowed-tools: mcp__lightspeed-mcp__get_cves mcp__lightspeed-mcp__get_cve mcp__lightspeed-mcp__get_cve_systems mcp__lightspeed-mcp__get_system_cves mcp__lightspeed-mcp__find_host_by_name mcp__lightspeed-mcp__get_host_details mcp__lightspeed-mcp__create_vuln_playbook mcp__aap-mcp-job-management__job_templates_list mcp__aap-mcp-job-management__job_templates_retrieve mcp__aap-mcp-job-management__projects_list mcp__aap-mcp-job-management__job_templates_launch_retrieve mcp__aap-mcp-job-management__jobs_retrieve mcp__aap-mcp-job-management__jobs_stdout_retrieve mcp__aap-mcp-job-management__jobs_job_events_list mcp__aap-mcp-job-management__jobs_job_host_summaries_list mcp__aap-mcp-job-management__jobs_relaunch_retrieve mcp__aap-mcp-inventory-management__inventories_list mcp__aap-mcp-inventory-management__hosts_list
 ---
 
 # Remediation Skill

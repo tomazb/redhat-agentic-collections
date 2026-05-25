@@ -5,6 +5,7 @@ description: |
 model: inherit
 color: green
 license: Apache-2.0
+allowed-tools: mcp__openshift__helm_list mcp__openshift__helm_install mcp__openshift__helm_upgrade mcp__openshift__pods_list_in_namespace mcp__openshift__resources_create_or_update
 metadata:
    user_invocable: "true"
 ---

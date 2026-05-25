@@ -5,6 +5,7 @@ license: Apache-2.0
 user_invocable: true
 model: inherit
 color: cyan
+allowed-tools: mcp__red-hat-security__cve-detail
 ---
 
 # Red Hat Support Ticket Severity Helper

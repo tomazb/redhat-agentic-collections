@@ -13,6 +13,7 @@ description: |
 model: inherit
 color: blue
 license: Apache-2.0
+allowed-tools: mcp__aap-mcp-job-management__job_templates_list mcp__aap-mcp-job-management__job_templates_retrieve mcp__aap-mcp-job-management__projects_list mcp__aap-mcp-inventory-management__inventories_list
 ---
 
 # AAP Job Template Remediation Validator

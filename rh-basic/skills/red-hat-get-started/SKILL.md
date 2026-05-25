@@ -5,6 +5,7 @@ license: Apache-2.0
 user_invocable: true
 model: inherit
 color: yellow
+allowed-tools:
 ---
 
 # Red Hat Skills Installer
