@@ -39,7 +39,7 @@ Diagnose RBAC permission failures on OpenShift by analyzing pod logs, readiness 
 
 ## Prerequisites
 
-**Required MCP Servers:** `openshift` ([setup](../../docs/prerequisites.md))
+**Required MCP Servers:** `openshift` ([setup](docs/prerequisites.md))
 
 **Required MCP Tools:**
 - `resources_get` (from openshift) — Retrieve Deployment, Pod, ServiceAccount, Role, and RoleBinding details
@@ -425,7 +425,7 @@ Select an option:
 ## Dependencies
 
 ### Required MCP Servers
-- `openshift` — Kubernetes/OpenShift resource access for Deployments, Pods, ServiceAccounts, Roles, RoleBindings, and Events ([setup](../../docs/prerequisites.md))
+- `openshift` — Kubernetes/OpenShift resource access for Deployments, Pods, ServiceAccounts, Roles, RoleBindings, and Events ([setup](docs/prerequisites.md))
 
 ### Required MCP Tools
 - `resources_get` (from openshift) — Retrieve individual resource details (Deployment, Pod, ServiceAccount, Role, RoleBinding)
@@ -440,7 +440,7 @@ Select an option:
 - `/debug-network` — If pods can't reach services (network, not API access)
 
 ### Reference Documentation
-- **Internal:** [docs/debugging-patterns.md](../../docs/debugging-patterns.md) — Common error patterns and troubleshooting trees
+- **Internal:** [docs/debugging-patterns.md](docs/debugging-patterns.md) — Common error patterns and troubleshooting trees
 - **Official:** [Using RBAC - OpenShift](https://docs.openshift.com/container-platform/latest/authentication/using-rbac.html)
 
 ## Example Usage
