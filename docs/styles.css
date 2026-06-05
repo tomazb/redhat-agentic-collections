@@ -589,6 +589,12 @@ section.collapsed .grid {
     border-color: #d1d5db;
 }
 
+.pack-eval-badge.is-federated {
+    color: #1e40af;
+    background: #dbeafe;
+    border-color: #60a5fa;
+}
+
 .pack-eval-divider {
     width: 100%;
     height: 1px;

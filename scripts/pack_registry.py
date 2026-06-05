@@ -85,6 +85,46 @@ def load_marketplace_module_by_path(
     return None
 
 
+MAIN_REPO_URL = "https://github.com/RHEcosystemAppEng/agentic-collections"
+
+
+def load_federated_modules(
+    marketplace_path: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
+    """Return modules whose repository differs from the main repo (federated packs)."""
+    path = marketplace_path or (_repo_root() / DEFAULT_MARKETPLACE)
+    if not path.exists():
+        return []
+    with open(path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    modules = data.get("modules") or []
+    if not isinstance(modules, list):
+        return []
+    return [
+        m for m in modules
+        if isinstance(m, dict)
+        and m.get("repository", "").rstrip("/") != MAIN_REPO_URL
+    ]
+
+
+def get_federation_module_dirs(repo_root: Optional[Path] = None) -> List[str]:
+    """Return ``federation/modules/<name>`` paths that have a ``.catalog/collection.yaml`` on disk."""
+    root = repo_root or _repo_root()
+    fed_root = root / "federation" / "modules"
+    if not fed_root.is_dir():
+        return []
+    return sorted(
+        f"federation/modules/{p.name}"
+        for p in fed_root.iterdir()
+        if p.is_dir() and (p / ".catalog" / "collection.yaml").is_file()
+    )
+
+
+def is_federation_module(pack_dir: str) -> bool:
+    """Return ``True`` if *pack_dir* lives under ``federation/modules/``."""
+    return pack_dir.startswith("federation/modules/")
+
+
 def load_plugin_title(pack_dir: str, repo_root: Optional[Path] = None) -> Optional[str]:
     root = repo_root or _repo_root()
     p = root / DEFAULT_PLUGINS_JSON

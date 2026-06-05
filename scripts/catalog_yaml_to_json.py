@@ -41,6 +41,8 @@ def main() -> int:
             for p in pack_registry.get_union_pack_dirs(root):
                 if (root / p / ".catalog" / "collection.yaml").exists():
                     mirror_pack(p, root, dry_run=args.dry_run)
+            for p in pack_registry.get_federation_module_dirs(root):
+                mirror_pack(p, root, dry_run=args.dry_run)
         elif args.pack:
             mirror_pack(args.pack, root, dry_run=args.dry_run)
         else:

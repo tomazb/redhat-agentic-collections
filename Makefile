@@ -1,4 +1,4 @@
-.PHONY: help install validate validate-collection-schema validate-collection-compliance catalog-mirror-json validate-skill-design validate-skill-design-changed validate-mcp-tools generate serve clean test test-full check-uv
+.PHONY: help install validate validate-collection-schema validate-collection-compliance catalog-mirror-json validate-skill-design validate-skill-design-changed validate-mcp-tools validate-federated generate serve clean test test-full check-uv
 
 help:
 	@echo "agentic-collections Documentation Generator"
@@ -11,6 +11,7 @@ help:
 	@echo "  catalog-mirror-json           - Regenerate all .catalog/collection.json from YAML"
 	@echo "  validate-skill-design         - Validate all skills (use PACK=rh-sre for a specific pack)"
 	@echo "  validate-skill-design-changed - Validate only changed skills (staged + unstaged, for local dev)"
+	@echo "  validate-federated            - Validate federated modules from marketplace YAML"
 	@echo "  validate-mcp-tools            - Validate allowed-tools against live MCP servers (requires podman)"
 	@echo "  generate    - Generate docs/data.json"
 	@echo "  serve       - Start local server on http://localhost:8000"
@@ -70,6 +71,10 @@ validate-mcp-tools: check-uv
 	@echo "Validating MCP tool references against live servers..."
 	@uv run python scripts/validate_mcp_tools.py $(if $(PACK),$(PACK))
 	@echo "✓ MCP tool validation complete!"
+
+validate-federated: check-uv
+	@echo "Validating federated modules..."
+	@uv run python scripts/fetch_federated_skills.py
 
 generate: check-uv
 	@echo "Generating documentation..."

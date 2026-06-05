@@ -137,7 +137,80 @@ Choose (1-3) or provide your own:
 ✅ Using "cluster-health-monitor"
 ```
 
-## Example 3: Large Skill Requires docs/ Folder
+## Example 3: Importing an Existing Skill
+
+```
+User: "/agentic-contribution-skill"
+
+Agentic-Contribution-Skill:
+Are you creating a new skill from scratch, or importing an existing SKILL.md?
+> "Import - I have a skill at ./my-skills/cluster-backup/SKILL.md"
+
+Reading ./my-skills/cluster-backup/SKILL.md...
+
+Analyzed: ./my-skills/cluster-backup/SKILL.md
+Name: cluster-backup | Lines: 180 | Frontmatter: needs-fixes (missing model, color)
+Suggested pack: ocp-admin (keywords: cluster, etcd, backup, restore)
+
+No color in frontmatter. Analyzing operations...
+Inferred color: red — Reason: skill performs etcd backup and restore, which are irreversible operations
+Confirm? (yes/override)
+> yes
+
+Reading ocp-admin/mcps.json...
+MCP tools referenced: resources_get, pods_exec, pods_log
+✅ All 3 tools found in openshift-administration MCP server
+
+Analyzed: ./my-skills/cluster-backup/SKILL.md
+Name: cluster-backup | Lines: 180 | Frontmatter: needs-fixes (missing model, color)
+Suggested pack: ocp-admin (keywords: cluster, etcd, backup, restore)
+Color: red (inferred)
+MCP tools: 3 verified, 0 not found
+Missing sections: Prerequisites, Dependencies
+
+Proceed with adaptation? (yes/no/try another file)
+> yes
+
+Reading SKILL_DESIGN_PRINCIPLES.md for compliant adaptation...
+✅ I consulted SKILL_DESIGN_PRINCIPLES.md to ensure compliant adaptation.
+
+Adapting skill:
+✅ Added model: inherit
+✅ Added color: red (confirmed by user)
+✅ Added Prerequisites section with verification
+✅ Added Dependencies section (MCP servers, tools)
+✅ Fixed section ordering per DP7
+
+Placing file: ocp-admin/skills/cluster-backup/SKILL.md
+Updating: ocp-admin/CLAUDE.md (intent routing)
+
+Summary of changes:
+- Frontmatter: added model, color, metadata
+- Added 2 missing sections (Prerequisites, Dependencies)
+- Reordered sections to match DP7
+- Original content preserved
+
+Confirm changes? (yes/no)
+> yes
+
+Running validation...
+
+✅ Tier 1: PASSED
+✅ Tier 2: PASSED
+
+## ✅ Skill Imported
+
+Files:
+✅ ocp-admin/skills/cluster-backup/SKILL.md (210 lines)
+✅ ocp-admin/CLAUDE.md (intent routing updated)
+
+Ready to commit? (yes/no)
+> yes
+
+[Git workflow with confirmations]
+```
+
+## Example 4: Large Skill Requires docs/ Folder
 
 ```
 [After Phase 2 - Definition]
