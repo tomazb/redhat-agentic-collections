@@ -122,10 +122,10 @@ Proceeding with fleet inventory query...
 **Key Fields to Extract**:
 - `id`: Unique system identifier (use for remediation workflows)
 - `display_name` / `fqdn`: Human-readable hostname
-- `rhel_version`: OS version (critical for remediation compatibility)
+- `system_profile.operating_system.version`: OS version (critical for remediation compatibility; use `system_profile.operating_system.major` for major-version filters)
 - `tags`: Environment labels (production, staging, dev)
-- `stale`: Whether system recently checked in (< 7 days)
-- `last_seen`: Last Lightspeed client run timestamp
+- `stale` / staleness: Whether system recently checked in (< 7 days); prefer `staleness` filter on `inventory__list_hosts` when filtering
+- `updated`: Last inventory update timestamp
 
 ### Step 2: Filter and Organize Systems
 

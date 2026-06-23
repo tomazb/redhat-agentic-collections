@@ -25,7 +25,7 @@ Retrieved from Red Hat Lightspeed on YYYY-MM-DDTHH:MM:SSZ
 | Environment | Count | Systems |
 
 ## Top 20 Systems (by last check-in)
-[Table: display_name, rhel_version, tags, last_seen]
+[Table: display_name, system_profile.operating_system.version, tags, updated]
 
 **Would you like to**: Filter by environment/RHEL, view CVEs, create remediation plans
 ```
