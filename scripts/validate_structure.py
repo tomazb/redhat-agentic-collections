@@ -3,7 +3,7 @@
 Validate agentic collection pack structure (mcps.json, AGENTS.md; plugin.json optional).
 
 Skill-level validation (frontmatter, sections, security) is handled by
-validate-skills.sh and run-skill-linter.sh.
+validate_skills_tier1.py and validate_skills_tier2.py.
 """
 
 import json
@@ -12,10 +12,14 @@ from pathlib import Path
 from typing import List
 import re
 
-import pack_registry
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_EXCLUDE = {"scripts", "catalog", ".claude", ".github", ".lola", "docs", "eval"}
 
-# Union of Lola marketplace paths and docs/plugins.json keys (existing dirs only)
-PACK_DIRS = pack_registry.get_union_pack_dirs()
+PACK_DIRS = sorted(
+    d.name for d in _REPO_ROOT.iterdir()
+    if d.is_dir() and d.name not in _EXCLUDE and not d.name.startswith(".")
+    and ((d / "AGENTS.md").exists() or (d / "skills").is_dir())
+)
 
 AGENTS_MD_FILENAME = "AGENTS.md"
 AGENTS_MD_DEPRECATED = "CLAUDE.md"

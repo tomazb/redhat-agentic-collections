@@ -1,24 +1,18 @@
-.PHONY: help install validate validate-collection-schema validate-collection-compliance catalog-mirror-json validate-skill-design validate-skill-design-changed validate-mcp-tools validate-federated generate serve clean test test-full check-uv
+.PHONY: help install validate validate-structure validate-collection-schema validate-collection-compliance validate-skill-design validate-skill-design-changed validate-mcp-tools clean check-uv
 
 help:
-	@echo "agentic-collections Documentation Generator"
+	@echo "agentic-collections-skills"
 	@echo ""
 	@echo "Available targets:"
 	@echo "  install                       - Install Python dependencies (requires uv)"
-	@echo "  validate                      - Pack structure + collection compliance + federated catalog cross-check"
+	@echo "  validate                      - Full validation: Tier 1 (agentskills.io) + Tier 2 (structure, compliance, design)"
+	@echo "  validate-structure            - Structure, links, compliance, MCP tools (no per-skill tier checks)"
 	@echo "  validate-collection-schema    - Schema + roster + banners (subset of compliance)"
 	@echo "  validate-collection-compliance - Full .catalog compliance (includes collection.json drift)"
-	@echo "  catalog-mirror-json           - Regenerate all .catalog/collection.json from YAML"
 	@echo "  validate-skill-design         - Validate all skills (use PACK=rh-sre for a specific pack)"
 	@echo "  validate-skill-design-changed - Validate only changed skills (staged + unstaged, for local dev)"
-	@echo "  validate-federated            - Tier 1 skill lint on external federated packs (heavy; catalog cross-check is in validate)"
 	@echo "  validate-mcp-tools            - Validate allowed-tools against live MCP servers (requires podman)"
-	@echo "  generate    - Generate docs/data.json"
-	@echo "  serve       - Start local server on http://localhost:8000"
-	@echo "  test        - Quick test (validate + generate + verify)"
-	@echo "  test-full   - Full test suite (test + serve with browser open)"
-	@echo "  clean       - Remove generated files"
-	@echo "  update      - Full update (validate + generate)"
+	@echo "  clean                         - Remove generated files"
 	@echo ""
 	@echo "Requirements:"
 	@echo "  uv - Install with: curl -LsSf https://astral.sh/uv/install.sh | sh"
@@ -40,19 +34,51 @@ install: check-uv
 	@echo "Dependencies installed in isolated environment (includes dev: pre-commit for git hooks)!"
 
 validate: check-uv
-	@echo "Validating agentic collection structure..."
-	@uv run python scripts/validate_structure.py
-	@echo "Validating skill docs links..."
-	@uv run python scripts/validate_skill_doc_links.py
-	@echo "Validating docs tree links..."
-	@uv run python scripts/validate_docs_tree_links.py
-	@echo "Validating collection compliance (.catalog/)..."
-	@uv run python scripts/validate_collection_compliance.py
-	@echo "Validating federated catalog cross-check (clone external repos at pinned ref)..."
-	@uv run python scripts/validate_federation_catalog_all.py
-	@echo "Validating MCP tool references (skips gracefully without podman)..."
-	@uv run python scripts/validate_mcp_tools.py --summary-only --log-file .validate/mcp-tools.log
-	@echo "✓ Validation complete!"
+	@EXIT=0; \
+	echo ""; \
+	echo "======================================================================"; \
+	echo "  Skill Check Tier 1 — agentskills.io spec"; \
+	echo "======================================================================"; \
+	echo ""; \
+	echo "=== Validating skills against agentskills.io spec..."; \
+	uv run python scripts/validate_skills_tier1.py || EXIT=1; \
+	echo ""; \
+	echo "======================================================================"; \
+	echo "  Skill Check Tier 2 — Structure, compliance, design principles"; \
+	echo "======================================================================"; \
+	echo ""; \
+	echo "=== Validating agentic collection structure..."; \
+	uv run python scripts/validate_structure.py || EXIT=1; \
+	echo "=== Validating skill docs links..."; \
+	uv run python scripts/validate_skill_doc_links.py || EXIT=1; \
+	echo "=== Validating docs tree links..."; \
+	uv run python scripts/validate_docs_tree_links.py || EXIT=1; \
+	echo "=== Validating collection compliance (.catalog/)..."; \
+	uv run python scripts/validate_collection_compliance.py || EXIT=1; \
+	echo "=== Validating MCP tool references (skips gracefully without podman)..."; \
+	uv run python scripts/validate_mcp_tools.py --summary-only --log-file .validate/mcp-tools.log || EXIT=1; \
+	echo "=== Validating skill design principles..."; \
+	uv run python scripts/validate_skills_tier2.py || EXIT=1; \
+	echo ""; \
+	echo "======================================================================"; \
+	echo "  Validation complete!"; \
+	echo "======================================================================"; \
+	exit $$EXIT
+
+validate-structure: check-uv
+	@EXIT=0; \
+	echo "=== Validating agentic collection structure..."; \
+	uv run python scripts/validate_structure.py || EXIT=1; \
+	echo "=== Validating skill docs links..."; \
+	uv run python scripts/validate_skill_doc_links.py || EXIT=1; \
+	echo "=== Validating docs tree links..."; \
+	uv run python scripts/validate_docs_tree_links.py || EXIT=1; \
+	echo "=== Validating collection compliance (.catalog/)..."; \
+	uv run python scripts/validate_collection_compliance.py || EXIT=1; \
+	echo "=== Validating MCP tool references (skips gracefully without podman)..."; \
+	uv run python scripts/validate_mcp_tools.py --summary-only --log-file .validate/mcp-tools.log || EXIT=1; \
+	echo "=== Validation complete!"; \
+	exit $$EXIT
 
 validate-collection-schema: check-uv
 	@uv run python scripts/validate_collection_schema.py
@@ -60,11 +86,8 @@ validate-collection-schema: check-uv
 validate-collection-compliance: check-uv
 	@uv run python scripts/validate_collection_compliance.py
 
-catalog-mirror-json: check-uv
-	@uv run python scripts/catalog_yaml_to_json.py --all
-
 validate-skill-design: check-uv
-	@uv run python scripts/validate_skill_design.py $(if $(PACK),$(PACK))
+	@uv run python scripts/validate_skills_tier2.py $(if $(PACK),$(PACK))
 
 validate-skill-design-changed: check-uv
 	@VALIDATE_INCLUDE_UNCOMMITTED=1 ./scripts/ci-validate-changed-skills.sh
@@ -72,41 +95,9 @@ validate-skill-design-changed: check-uv
 validate-mcp-tools: check-uv
 	@echo "Validating MCP tool references against live servers..."
 	@uv run python scripts/validate_mcp_tools.py $(if $(PACK),$(PACK))
-	@echo "✓ MCP tool validation complete!"
-
-validate-federated: check-uv
-	@echo "Validating federated module skills (Tier 1, external clone)..."
-	@uv run python scripts/fetch_federated_skills.py
-
-generate: check-uv
-	@echo "Generating documentation..."
-	@uv run python scripts/build_website.py
-	@echo "✓ Documentation generated in docs/"
-
-serve: check-uv
-	@echo "Starting local server on http://localhost:8000"
-	@echo "Press Ctrl+C to stop the server"
-	@cd docs && uv run python -m http.server 8000
+	@echo "MCP tool validation complete!"
 
 clean:
 	@echo "Cleaning generated files..."
-	@rm -f docs/data.json
-	@echo "✓ Cleaned!"
-
-test: validate generate
-	@echo ""
-	@echo "Running verification checks..."
-	@./scripts/test_local.sh
-	@echo ""
-	@echo "✓ All tests passed!"
-	@echo ""
-	@echo "To view the site locally, run: make serve"
-
-test-full: test
-	@echo ""
-	@echo "Opening browser and starting server..."
-	@(sleep 2 && open http://localhost:8000) &
-	@make serve
-
-update: validate generate
-	@echo "✓ Documentation updated successfully!"
+	@rm -rf .validate/
+	@echo "Cleaned!"

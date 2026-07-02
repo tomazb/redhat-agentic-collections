@@ -2,71 +2,70 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## What This Repository Is
 
-This repository contains **agentic collections** - plugin collections that automate interactions with Red Hat platforms and products across multiple AI marketplaces (Claude Code, Cursor, ChatGPT). Each pack is persona-specific and includes skills, agents, and supporting documentation.
+This is a **skills source repository** — one of potentially many that feed into the [agentic-collections-catalog](https://github.com/RHEcosystemAppEng/agentic-collections-catalog). It contains agentic packs with skills, MCP server configurations, AI-optimized documentation, and catalog metadata for Red Hat platforms.
+
+Contributors work here to create, improve, and validate skills. An internal process periodically fetches content from this repository (and others like it) to build the unified catalog and marketplace. **This repo does not serve the marketplace directly** — it is a source of skills that the catalog aggregates.
 
 ## Repository Structure
 
 ```
-agentic-collections/
+agentic-collections-skills/
 ├── rh-sre/              # Site Reliability Engineering pack (reference implementation)
 ├── rh-developer/        # Developer tools pack
 ├── ocp-admin/           # OpenShift administration pack
-└── rh-virt/             # Virtualization management pack
+├── rh-virt/             # Virtualization management pack
+├── rh-basic/            # Getting started pack
+├── rh-ai-engineer/      # AI Engineering pack
+├── rh-automation/       # Automation pack
+├── rh-support-engineer/ # Support engineering pack
+├── eval/                # Skill evaluation reports (report.json + report.md per skill)
+├── scripts/             # Validation and CI helper scripts
+├── catalog/             # JSON Schema for .catalog/collection.yaml validation
+│   └── schema.yaml
+└── .claude/skills/      # Repo-level Claude Code skills (contribution, linting, compliance)
 ```
+
+### `catalog/schema.yaml`
+
+This file defines the JSON Schema used by `validate_collection_schema.py` and `validate_collection_compliance.py` to validate each pack's `.catalog/collection.yaml`. It is not related to the catalog marketplace repository — it is a validation artifact that ensures catalog metadata is well-formed before the catalog build process consumes it.
 
 ### Agentic Pack Architecture
 
-Packs follow the [Lola](https://github.com/LobsterTrap/lola) package manager format. Install via `lola install -f <pack-name>` from the marketplace.
+Each pack is persona-specific and follows this structure:
 
-Each pack follows this structure:
 ```
 <pack-name>/
-├── AGENTS.md            # Lola AI Context Module instruction routing (persona, skills, rules)
+├── AGENTS.md            # AI Context Module instruction routing (persona, skills, rules)
 ├── README.md            # Pack description, persona, target marketplaces
 ├── mcps.json            # MCP server configurations (uses env vars for credentials)
-├── .catalog/            # collection.yaml + collection.json (COLLECTION_SPEC.md, catalog/schema.yaml)
+├── .catalog/            # Collection metadata consumed by the catalog build process
+│   ├── collection.yaml  # Pack catalog definition (golden source for catalog)
+│   └── collection.json  # Deterministic JSON mirror of collection.yaml
 ├── skills/              # Specialized task executors (including orchestration skills)
 │   └── <skill>/
 │       └── SKILL.md     # Skill definition with YAML frontmatter
-└── docs/                # AI-optimized knowledge base (rh-sre only currently)
-    ├── INDEX.md         # Documentation map and AI discovery guide
-    ├── SOURCES.md       # Official Red Hat source attributions
-    └── .ai-index/       # Semantic indexing for token optimization
+└── docs/                # AI-optimized knowledge base (optional, rh-sre reference)
 ```
 
-Optional (not required for Lola): `.claude-plugin/plugin.json` — Claude Code plugin metadata if you publish this pack through the Claude Code plugin format in addition to Lola.
+### Relationship with the Catalog
 
-## Contribution Paths
+Each pack's `.catalog/` directory contains metadata that describes the pack for the marketplace. This metadata stays here, alongside the skills it describes. The catalog build process reads it from this repo to assemble the unified marketplace. The golden sources are always `SKILL.md`, `AGENTS.md`, `README.md`, and `mcps.json` — `.catalog/` is derived from them, never the other way around.
 
-There are two ways to add skills to this project:
+## Contributing
 
-**Direct Contribution** — Skills are added directly to this repository, inside an existing pack. The contributor opens a PR, skills are reviewed and merged, and maintainers own them from that point. Use `/agentic-contribution-skill` in Claude Code or follow [CONTRIBUTING.md](CONTRIBUTING.md).
+Skills are added directly to this repository, inside an existing pack. The contributor opens a PR, skills are reviewed and merged, and maintainers own them from that point. Use `/agentic-contribution-skill` in Claude Code or follow [CONTRIBUTING.md](CONTRIBUTING.md).
 
-**Federation** — An external repository containing a complete, independent Lola pack is referenced in our catalog. The code stays in the external repo; users install the **full pack** (all skills at `path`) directly via Lola. The external owner maintains their pack. To request federation, follow [FEDERATION_REQUEST_GUIDE.md](FEDERATION_REQUEST_GUIDE.md) or run `/federation-request` in Claude Code. Maintainers evaluate requests using [FEDERATION_REVIEW_GUIDE.md](FEDERATION_REVIEW_GUIDE.md) and the `/federation-review` skill.
-
-## Working with Agentic Collections
-
-### Skills
+## Working with Skills
 
 **Skills** (`skills/<skill-name>/SKILL.md`):
 - Single-purpose task executors
 - Encapsulate specific tool access and domain knowledge
 - Invoked via the `Skill` tool
 - Structure: YAML frontmatter + implementation guide
-- Example: `cve-impact` (CVE risk assessment), `playbook-generator` (Ansible generation)
 
-**Key Pattern**: Skills encapsulate tools; orchestration skills invoke other skills. Never call MCP tools directly - always go through skills. For end-to-end CVE remediation, use the `/remediation` skill which orchestrates 6 specialized skills.
-
-### Repository catalog skills (`.catalog/`)
-
-Packs listed in `union(marketplace/rh-agentic-collection.yml modules[].path, docs/plugins.json keys)` maintain **`<pack>/.catalog/collection.yaml`** (and a deterministic **`collection.json`** mirror). Golden sources remain `SKILL.md`, `README.md`, `AGENTS.md`, and marketplace YAML—**never** generated from catalog back into those files.
-
-- **`create-collection`** (`.claude/skills/create-collection/`) — workflow to author or refresh catalog YAML under `.catalog/`.
-- **`collection-compliance`** (`.claude/skills/collection-compliance/`) — interpret `make validate-collection-compliance` failures and fix drift.
-
-Validation: `make validate` runs pack structure checks plus **collection compliance**. Human rules (inline vs fragment paths, optional `#` on paths): [COLLECTION_SPEC.md](COLLECTION_SPEC.md). Machine schema: [catalog/schema.yaml](catalog/schema.yaml). Pack list helper: [`scripts/pack_registry.py`](scripts/pack_registry.py).
+**Key Pattern**: Skills encapsulate tools; orchestration skills invoke other skills. Never call MCP tools directly — always go through skills.
 
 ## Skill and Agent Requirements
 
@@ -74,17 +73,23 @@ Validation: `make validate` runs pack structure checks plus **collection complia
 - **Tier 1:** agentskills.io specification (AUTOMATED via linter)
 - **Tier 2:** Repository design principles (MANUAL review)
 
+The catalog's internal process applies its own evaluation and assigns a scorecard, but skills must pass Tier 1 and Tier 2 here before merging.
+
 **Before committing any skill:**
 
 1. **Run automated validation (Tier 1):**
    ```bash
-   ./scripts/run-skill-linter.sh skills/skill-name/
+   uv run python scripts/validate_skills_tier1.py <pack>/skills/<skill-name>/SKILL.md
    ```
 
 2. **Manual review (Tier 2):**
    - Review [SKILL_DESIGN_PRINCIPLES.md](SKILL_DESIGN_PRINCIPLES.md) for complete requirements
    - Use appropriate template (general or collection-specific)
-   - Verify all design principles are followed
+
+3. **Full validation:**
+   ```bash
+   make validate
+   ```
 
 **Documentation:**
 - [SKILL_DESIGN_PRINCIPLES.md](SKILL_DESIGN_PRINCIPLES.md) - Complete design principles, templates, and rationale
@@ -99,7 +104,7 @@ MCP servers are configured in `<pack>/mcps.json`:
       "command": "podman|docker|npx",
       "args": ["..."],
       "env": {
-        "VAR_NAME": "${VAR_NAME}"  // Environment variable references
+        "VAR_NAME": "${VAR_NAME}"
       },
       "security": {
         "isolation": "container",
@@ -129,8 +134,6 @@ Located in `docs/.ai-index/`:
 2. Match task keywords to relevant docs
 3. Load only required docs using progressive disclosure
 4. Follow cross-references for related content
-
-**Performance**: 29% token reduction on average, 85% reduction in navigation overhead
 
 ### Documentation Standards
 
@@ -173,9 +176,7 @@ last_updated: YYYY-MM-DD
 3. Add `AGENTS.md` with persona, skill-first rule, intent routing table, MCP servers, and global rules (see [rh-ai-engineer/AGENTS.md](rh-ai-engineer/AGENTS.md) for reference)
 4. Create `skills/` directory
 5. Add `mcps.json` when the pack integrates MCP servers (use `${VAR}` for secrets)
-6. Register the pack in [`marketplace/rh-agentic-collection.yml`](marketplace/rh-agentic-collection.yml) so `lola install -f <pack-name>` can resolve it
-7. Optional: Add `.claude-plugin/plugin.json` only if publishing via Claude Code’s plugin mechanism
-8. Update main `README.md` table with link
+6. Update main `README.md` table with link
 
 ### Adding a Skill
 
@@ -192,29 +193,19 @@ last_updated: YYYY-MM-DD
 4. Include concrete examples and complete error handling
 5. Update the pack's `AGENTS.md` intent routing table to include the new skill
 6. Test with `Skill` tool invocation
-7. Validate with `./scripts/run-skill-linter.sh skills/<skill-name>/`
+7. Validate with `uv run python scripts/validate_skills_tier1.py <pack>/skills/<skill-name>/SKILL.md`
 
 **Collection-Specific Standards:**
 - **rh-virt**: Follow `rh-virt/SKILL_TEMPLATE.md` for enhanced quality standards including mandatory Common Issues and Example Usage sections
-
-### Adding an Agent
-
-1. Create `agents/<agent-name>.md`
-2. Follow skill requirements in [SKILL_DESIGN_PRINCIPLES.md](SKILL_DESIGN_PRINCIPLES.md) (agents use same structure)
-3. Define YAML frontmatter (name, description, model, tools)
-4. Document workflow that orchestrates multiple skills
-5. Provide clear examples of when to use agent vs individual skills
-6. Test with `Task` tool invocation
 
 ### Adding Documentation (rh-sre pattern)
 
 1. Create doc in appropriate category: `docs/{rhel,ansible,openshift,insights,references}/`
 2. Add complete YAML frontmatter with official sources
-3. Follow content structure: Overview → When to Use → Main Content → Related Docs
+3. Follow content structure: Overview -> When to Use -> Main Content -> Related Docs
 4. Lead with code examples (production-ready, not toy examples)
 5. Update `docs/INDEX.md` navigation structure
 6. Update `docs/SOURCES.md` with source URLs
-7. Regenerate indexes: `python docs/.ai-index/generate-index.py` (when available)
 
 ## Integration with Red Hat Platforms
 
@@ -229,35 +220,34 @@ last_updated: YYYY-MM-DD
 - Status monitoring
 - Container-isolated execution
 
-## Reference Implementation
+## Reference Implementations
 
-The `rh-sre` pack is the most complete implementation, demonstrating:
+### rh-sre (Full-Featured Reference)
+
+The most complete pack, demonstrating:
 - Full skill orchestration (10 skills)
 - Orchestration skills (remediation skill orchestrates 6 skills)
 - AI-optimized documentation system
 - MCP server integration
 - Red Hat Lightspeed platform integration
 
-When creating new collection, use `rh-sre` as the architectural reference.
+When creating new packs, use `rh-sre` as the architectural reference.
 
 ### rh-virt (Quality-Controlled Pattern)
 
-The `rh-virt` pack demonstrates skill quality standardization:
+Demonstrates skill quality standardization:
 - Comprehensive skill templates (`SKILL_TEMPLATE.md`)
 - Risk-based color coding (cyan/green/blue/yellow/red/magenta)
 - Mandatory Common Issues and Example Usage sections
 - Consistent section ordering and formatting
 
-Use `rh-virt` as reference for collections requiring high consistency and maintainability.
-
-When creating new collections, follow the pattern that best matches your needs:
-- **Tool-focused domains** (infrastructure, operations) → Follow rh-virt pattern
+Use `rh-virt` as reference for packs requiring high consistency and maintainability.
 
 ## Key Principles
 
 ### Core Architecture
 1. **Skills encapsulate tools** - Never call MCP tools directly; always invoke skills
-2. **Orchestration skills invoke other skills** - Complex workflows delegate to specialized skills; agents orchestrate skills
+2. **Orchestration skills invoke other skills** - Complex workflows delegate to specialized skills
 3. **agentskills.io compliance** - All skills follow the official specification
 4. **Progressive disclosure** - Load docs incrementally based on task needs
 
@@ -269,8 +259,9 @@ When creating new collections, follow the pattern that best matches your needs:
 ### Documentation & Quality
 8. **Official sources only** - Document all sources in SOURCES.md
 9. **Production-ready examples** - No toy code, include error handling
-10. **Persona-focused design** - Each collection serves specific user roles
+10. **Persona-focused design** - Each pack serves specific user roles
 
 **Validation:**
 - Design principles and requirements: [SKILL_DESIGN_PRINCIPLES.md](./SKILL_DESIGN_PRINCIPLES.md)
-- Automated linter (Tier 1): `./scripts/run-skill-linter.sh`
+- Automated linter (Tier 1): `uv run python scripts/validate_skills_tier1.py`
+- Full validation: `make validate`

@@ -9,14 +9,22 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import yaml
 from jsonschema import Draft202012Validator
 
-import pack_registry
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+_PACK_EXCLUDE = {"scripts", "catalog", ".claude", ".github", ".lola", "docs", "eval"}
+
+
+def _discover_packs(root: Path) -> List[str]:
+    return sorted(
+        d.name for d in root.iterdir()
+        if d.is_dir() and d.name not in _PACK_EXCLUDE and not d.name.startswith(".")
+        and ((d / "AGENTS.md").exists() or (d / "skills").is_dir())
+    )
 SCHEMA_YAML_PATH = REPO_ROOT / "catalog" / "schema.yaml"
 
 YAML_BANNER_MARKERS = ("create-collection", "Golden sources")
@@ -338,79 +346,6 @@ def list_disk_skill_names(pack_dir: str, root: Optional[Path] = None) -> List[st
     return names
 
 
-def list_external_pack_skill_names(pack_root: Path) -> List[str]:
-    """Return skill directory names from an external pack checkout."""
-    skills_dir = pack_root / "skills"
-    if not skills_dir.is_dir():
-        return []
-    return sorted(
-        p.name for p in skills_dir.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()
-    )
-
-
-def validate_external_skill_roster(
-    label: str,
-    data: Dict[str, Any],
-    external_skills: Set[str],
-    yaml_path: Optional[Path] = None,
-    root: Optional[Path] = None,
-) -> List[str]:
-    """Compare catalog YAML skill names to skills present in an external pack checkout."""
-    root = root or REPO_ROOT
-    reg, orch = catalog_skill_names(data)
-    yaml_names = reg + orch
-    errs: List[str] = []
-    skill_lines = catalog_skill_name_line_map(yaml_path) if yaml_path and yaml_path.is_file() else {}
-    guide_lines = (
-        catalog_decision_guide_skill_line_map(yaml_path) if yaml_path and yaml_path.is_file() else {}
-    )
-
-    if len(yaml_names) != len(set(yaml_names)):
-        errs.append(f"{label}: duplicate skill name in contents.skills / orchestration_skills")
-
-    seen = set(reg) | set(orch)
-    for n in reg + orch:
-        if n not in external_skills:
-            line = skill_lines.get(n)
-            loc = _yaml_loc(label, yaml_path, line, root) if yaml_path and line else label
-            expected = sorted(external_skills)
-            hint = f" (external pack skills at ref: {', '.join(expected)})" if expected else ""
-            errs.append(
-                f"{label}: {loc} lists skill {n!r} but external pack has no skills/{n}/SKILL.md at ref{hint}"
-            )
-
-    for d in external_skills:
-        if d not in seen:
-            errs.append(
-                f"{label}: external pack skill {d!r} missing from collection.yaml "
-                f"contents.skills / orchestration_skills"
-            )
-
-    contents = data.get("contents") or {}
-    guide = (contents or {}).get("skills_decision_guide") or []
-    if not external_skills and guide:
-        errs.append(f"{label}: skills_decision_guide must be empty when the external pack has no skills/")
-    for i, row in enumerate(guide):
-        if not isinstance(row, dict):
-            continue
-        st = row.get("skill_to_use")
-        if external_skills and st and st not in external_skills:
-            line = guide_lines.get(str(st))
-            loc = _yaml_loc(label, yaml_path, line, root) if yaml_path and line else label
-            errs.append(
-                f"{label}: {loc} skills_decision_guide[{i}] skill_to_use {st!r} "
-                f"not in external pack skills/ at ref"
-            )
-        if external_skills and st and st not in seen:
-            line = guide_lines.get(str(st))
-            loc = _yaml_loc(label, yaml_path, line, root) if yaml_path and line else label
-            errs.append(
-                f"{label}: {loc} skills_decision_guide[{i}] skill_to_use {st!r} "
-                f"not listed in contents.skills / orchestration_skills"
-            )
-    return errs
-
-
 def catalog_skill_names(data: Dict[str, Any]) -> Tuple[List[str], List[str]]:
     contents = data.get("contents") or {}
     if not isinstance(contents, dict):
@@ -466,13 +401,8 @@ def validate_schema_instance(pack_dir: str, data: Dict[str, Any]) -> List[str]:
 
 def validate_pack_iteration3(
     pack_dir: str, root: Optional[Path] = None, check_banner: bool = True,
-    is_federated: bool = False,
 ) -> List[str]:
-    """Iteration 3: schema + fragment refs + roster + optional YAML banner (no collection.json mirror).
-
-    When *is_federated* is ``True`` the roster check is skipped because
-    federated modules store their skills in an external repository.
-    """
+    """Iteration 3: schema + fragment refs + roster + optional YAML banner (no collection.json mirror)."""
     root = root or REPO_ROOT
     data, errs = read_yaml_catalog(pack_dir, root)
     if errs or data is None:
@@ -481,36 +411,30 @@ def validate_pack_iteration3(
     out.extend(validate_deprecated_catalog_file_keys(pack_dir, data))
     out.extend(validate_schema_instance(pack_dir, data))
     out.extend(validate_file_refs(pack_dir, data, root))
-    if not is_federated:
-        out.extend(validate_skill_roster(pack_dir, data, root))
+    out.extend(validate_skill_roster(pack_dir, data, root))
     if check_banner:
         out.extend(validate_yaml_banner(pack_dir, root))
     return out
 
 
 def validate_pack_iteration5(
-    pack_dir: str, root: Optional[Path] = None, is_federated: bool = False,
+    pack_dir: str, root: Optional[Path] = None,
 ) -> List[str]:
     """Full collection compliance: Iteration 3 + semantic rules + JSON mirror drift."""
     root = root or REPO_ROOT
-    errs = validate_pack_iteration3(pack_dir, root, check_banner=True, is_federated=is_federated)
+    errs = validate_pack_iteration3(pack_dir, root, check_banner=True)
     data, e = read_yaml_catalog(pack_dir, root)
     errs.extend(e)
     if data:
-        errs.extend(validate_pack_catalog_compliance_extra(pack_dir, data, root, is_federated=is_federated))
+        errs.extend(validate_pack_catalog_compliance_extra(pack_dir, data, root))
         errs.extend(validate_json_mirror(pack_dir, data, root))
     return errs
 
 
 def validate_pack_catalog_compliance_extra(
     pack_dir: str, data: Dict[str, Any], root: Optional[Path] = None,
-    is_federated: bool = False,
 ) -> List[str]:
-    """Iteration 5 semantic checks.
-
-    When *is_federated* is ``True``, on-disk skill existence and decision-guide
-    cross-checks are skipped (skills live in the external repository).
-    """
+    """Iteration 5 semantic checks."""
     root = root or REPO_ROOT
     errs: List[str] = []
     contents = data.get("contents")
@@ -529,25 +453,23 @@ def validate_pack_catalog_compliance_extra(
                     errs.append(f"{pack_dir}: {label}[{i}] requires name and description")
                 if len(sm) < 20:
                     errs.append(f"{pack_dir}: {label}[{i}] summary_markdown too short (<20 chars)")
-                if not is_federated:
-                    skill_md = (root / pack_dir / "skills" / str(name) / "SKILL.md")
-                    if not skill_md.is_file():
-                        errs.append(
-                            f"{pack_dir}: {label}[{i}] name {name!r} must match skills/<name>/ directory "
-                            f"(missing {skill_md.relative_to(root)})"
-                        )
+                skill_md = (root / pack_dir / "skills" / str(name) / "SKILL.md")
+                if not skill_md.is_file():
+                    errs.append(
+                        f"{pack_dir}: {label}[{i}] name {name!r} must match skills/<name>/ directory "
+                        f"(missing {skill_md.relative_to(root)})"
+                    )
 
-    if not is_federated:
-        disk_skill_names = set(list_disk_skill_names(pack_dir, root))
-        guide = (contents or {}).get("skills_decision_guide") or []
-        if not disk_skill_names and guide:
-            errs.append(f"{pack_dir}: skills_decision_guide must be empty when the pack has no skills/")
-        for i, row in enumerate(guide):
-            if not isinstance(row, dict):
-                continue
-            st = row.get("skill_to_use")
-            if disk_skill_names and st and st not in disk_skill_names:
-                errs.append(f"{pack_dir}: skills_decision_guide[{i}] skill_to_use {st!r} not a known skill dir")
+    disk_skill_names = set(list_disk_skill_names(pack_dir, root))
+    guide = (contents or {}).get("skills_decision_guide") or []
+    if not disk_skill_names and guide:
+        errs.append(f"{pack_dir}: skills_decision_guide must be empty when the pack has no skills/")
+    for i, row in enumerate(guide):
+        if not isinstance(row, dict):
+            continue
+        st = row.get("skill_to_use")
+        if disk_skill_names and st and st not in disk_skill_names:
+            errs.append(f"{pack_dir}: skills_decision_guide[{i}] skill_to_use {st!r} not a known skill dir")
 
     for i, wf in enumerate(data.get("sample_workflows") or []):
         if not isinstance(wf, dict):
@@ -594,26 +516,22 @@ def validate_catalog_inline_length(pack_dir: str, data: Dict[str, Any]) -> List[
 def validate_all_iteration3(root: Optional[Path] = None, check_banner: bool = True) -> List[str]:
     root = root or REPO_ROOT
     all_errs: List[str] = []
-    for pack in pack_registry.get_union_pack_dirs(root):
+    for pack in _discover_packs(root):
         cat = root / pack / ".catalog" / "collection.yaml"
         if not cat.exists():
             all_errs.append(f"{pack}: missing .catalog/collection.yaml")
             continue
         all_errs.extend(validate_pack_iteration3(pack, root, check_banner=check_banner))
-    for fed in pack_registry.get_federation_module_dirs(root):
-        all_errs.extend(validate_pack_iteration3(fed, root, check_banner=check_banner, is_federated=True))
     return all_errs
 
 
 def validate_all_iteration5(root: Optional[Path] = None) -> List[str]:
     root = root or REPO_ROOT
     all_errs: List[str] = []
-    for pack in pack_registry.get_union_pack_dirs(root):
+    for pack in _discover_packs(root):
         cat = root / pack / ".catalog" / "collection.yaml"
         if not cat.exists():
             all_errs.append(f"{pack}: missing .catalog/collection.yaml")
             continue
         all_errs.extend(validate_pack_iteration5(pack, root))
-    for fed in pack_registry.get_federation_module_dirs(root):
-        all_errs.extend(validate_pack_iteration5(fed, root, is_federated=True))
     return all_errs

@@ -1,6 +1,6 @@
-# Contributing to Agentic Collections
+# Contributing to Agentic Collections Skills
 
-Add skills to the Red Hat Agentic Collections marketplace.
+Add skills to the Red Hat Agentic Collections.
 
 ## How to Contribute
 
@@ -12,14 +12,14 @@ The fastest way to contribute is using `/agentic-contribution-skill` in Claude C
 
 ```
 /agentic-contribution-skill
-# Choose "Create" → answer discovery questions → skill is generated and validated
+# Choose "Create" -> answer discovery questions -> skill is generated and validated
 ```
 
 **Already have a SKILL.md?**
 
 ```
 /agentic-contribution-skill
-# Choose "Import" → point to your file → skill is analyzed, adapted, and validated
+# Choose "Import" -> point to your file -> skill is analyzed, adapted, and validated
 ```
 
 ### Quick start
@@ -53,7 +53,7 @@ If you prefer to create skills manually:
 1. Read the standards: [SKILL_DESIGN_PRINCIPLES.md](SKILL_DESIGN_PRINCIPLES.md)
 2. Create `<pack>/skills/<skill-name>/SKILL.md` following the template
 3. Update `<pack>/AGENTS.md` intent routing table
-4. Validate Tier 1: `./scripts/run-skill-linter.sh <pack>/skills/<skill-name>/`
+4. Validate Tier 1: `uv run python scripts/validate_skills_tier1.py <pack>/skills/<skill-name>/SKILL.md`
 5. Validate Tier 2: `make validate-skill-design-changed`
 
 Both tiers must pass before submitting a PR.
@@ -72,11 +72,8 @@ Both tiers must pass before submitting a PR.
 ## Resources
 
 - [SKILL_DESIGN_PRINCIPLES.md](SKILL_DESIGN_PRINCIPLES.md) -- Design principles and templates
-- [FEDERATION_REQUEST_GUIDE.md](FEDERATION_REQUEST_GUIDE.md) -- How to federate an external pack into the marketplace
-- [FEDERATION_REVIEW_GUIDE.md](FEDERATION_REVIEW_GUIDE.md) -- How external packs are evaluated for federation
 - [agentskills.io specification](https://agentskills.io/specification) -- Base skill standard
-- [Documentation site](https://rhecosystemappeng.github.io/agentic-collections) -- Browse all collections
-- [GitHub Issues](https://github.com/RHEcosystemAppEng/agentic-collections/issues) -- Report bugs or ask questions
+- [Security Policy](SECURITY.md) -- Credential handling and vulnerability reporting
 
 ## License
 
