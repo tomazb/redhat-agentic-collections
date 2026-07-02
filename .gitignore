@@ -112,7 +112,5 @@ config.local.*
 *.backup
 *.old
 
-# Generated Documentation
-docs/data.json
+# Reports
 reports/
-docs/collections/*.html
