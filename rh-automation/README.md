@@ -1,4 +1,4 @@
-# Red Hat Automation Agentic Collection
+# Red Hat Automation Agentic Plugin
 
 Automation governance for Ansible Automation Platform. 11 skills and 4 reference docs that audit AAP configuration against Red Hat best practices, run governed execution with check mode and rollback, and perform forensic failure analysis with error classification.
 

@@ -13,9 +13,9 @@ The rh-sre collection is a reference implementation demonstrating the full agent
 - **AI-optimized documentation** with semantic indexing
 - **3 MCP server integrations** (Red Hat Lightspeed, AAP Job Management, AAP Inventory Management)
 
-## Why Use This Agentic Collection Instead of Raw MCP Tools?
+## Why Use This Agentic Plugin Instead of Raw MCP Tools?
 
-The agentic collection transforms raw MCP tools into a reliable, safe, and user-friendly SRE automation platform. Skills provide guardrails, encode expertise, and eliminate common pitfalls, while orchestration skills coordinate complex workflows that would otherwise require dozens of manual tool invocations. While you could use the underlying MCP servers (`lightspeed-mcp`, AAP MCP servers) directly, the agentic collection provides critical advantages that significantly improve reliability, safety, and user experience.
+The agentic plugin transforms raw MCP tools into a reliable, safe, and user-friendly SRE automation platform. Skills provide guardrails, encode expertise, and eliminate common pitfalls, while orchestration skills coordinate complex workflows that would otherwise require dozens of manual tool invocations. While you could use the underlying MCP servers (`lightspeed-mcp`, AAP MCP servers) directly, the agentic plugin provides critical advantages that significantly improve reliability, safety, and user experience.
 
 ### Reliability & Error Prevention
 

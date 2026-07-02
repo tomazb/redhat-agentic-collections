@@ -571,5 +571,5 @@ Ask: "Proceed?" Wait for confirmation.
 
 **Last Updated**: 2026-03-02
 **Version**: 5.0
-**Applies To**: All agentic collections
+**Applies To**: All agentic plugins
 **Specification Compliance**: agentskills.io v1.0

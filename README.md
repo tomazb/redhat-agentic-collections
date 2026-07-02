@@ -1,4 +1,4 @@
-# Red Hat Agentic Collections - Skills
+# Red Hat Agentic Plugins - Skills
 
 **Production-ready AI skills and automation for Red Hat platforms** — specialized plugins for SREs, developers, platform administrators, and AI engineers working with RHEL, OpenShift, and Red Hat automation platforms.
 

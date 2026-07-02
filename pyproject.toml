@@ -1,7 +1,7 @@
 [project]
 name = "agentic-plugins"
 version = "0.1.0"
-description = "Agentic collections for Red Hat platforms (skills, agents, MCP)"
+description = "Agentic plugins for Red Hat platforms (skills, agents, MCP)"
 requires-python = ">=3.11"
 dependencies = [
     "PyYAML>=6.0",

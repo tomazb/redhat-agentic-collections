@@ -1,6 +1,6 @@
-# Contributing to Agentic Collections Skills
+# Contributing to Agentic Plugins Skills
 
-Add skills to the Red Hat Agentic Collections.
+Add skills to the Red Hat Agentic Plugins.
 
 ## How to Contribute
 
