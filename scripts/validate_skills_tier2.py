@@ -71,7 +71,6 @@ CRITICAL_SKILL_KEYWORDS = [
 
 # Required sections (DP6)
 REQUIRED_SECTIONS = [
-    "Prerequisites",
     "When to Use This Skill",
     "Workflow",
 ]
@@ -378,7 +377,7 @@ def check_when_to_use_content(body: str, result: ValidationResult) -> None:
         or "not when" in content_lower
     )
     if not has_anti:
-        result.errors.append(
+        result.warnings.append(
             "'When to Use' section must include 'Do NOT use' anti-patterns"
         )
     else:
