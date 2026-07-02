@@ -29,7 +29,7 @@ All skills created follow **Red Hat product guidelines, official documentation s
 **Creates**: Complete skill structure with YAML frontmatter, all mandatory sections, pack integration, and new agentic packs (Lola-compatible)
 **Validates**: Tier 1 (agentskills.io) + Tier 2 (repository design principles)
 **Applies**: Red Hat documentation compliance (uses official Red Hat documentation to adapt skill content to manufacturer guidelines - not automated validation)
-**Marketplace**: Registers packs in `marketplace/rh-agentic-collection.yml` for Lola package manager installation
+**Marketplace**: Registers packs in `marketplace/rh-agentic-collection.yml` ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)) for Lola package manager installation
 
 ## Prerequisites
 
@@ -244,7 +244,7 @@ mkdir -p <pack>/skills/<skill-name>/docs/
    - `docs/external-resources.md` - Any external docs/links/KB articles mentioned by user
 3. **Update <pack>/AGENTS.md**: Add intent routing entry
 4. **Create <pack>/mcps.json**: If new MCP server needed (use `${ENV_VAR}` format)
-5. **Update marketplace/rh-agentic-collection.yml**: If new pack (register pack for Lola installation)
+5. **Update marketplace/rh-agentic-collection.yml** in [agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog): If new pack (register pack for Lola installation)
 6. **Create pack structure**: If new pack (README.md, AGENTS.md, skills/ directory)
 
 Generate SKILL.md following the mandatory section template in SKILL_DESIGN_PRINCIPLES.md (already consulted in Phase 3). If SKILL.md becomes too long, move detailed content to `docs/` with references in main file.
@@ -343,7 +343,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ### Issue 6: "New pack not installable via Lola"
 
-**Cause**: Pack not registered in `marketplace/rh-agentic-collection.yml`
+**Cause**: Pack not registered in `marketplace/rh-agentic-collection.yml` ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog))
 
 **Fix**: Add pack entry to marketplace file:
 ```yaml
@@ -396,7 +396,7 @@ None - agentic-contribution-skill is self-contained and doesn't invoke other ski
 - `scripts/validate_skills_tier1.py` - Tier 1 validation (agentskills.io)
 - `scripts/validate_skills_tier2.py` - Tier 2 validation (design principles)
 - `Makefile` - Validation targets
-- `marketplace/rh-agentic-collection.yml` - Lola marketplace registry
+- `marketplace/rh-agentic-collection.yml` ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)) - Lola marketplace registry
 
 ### System Requirements
 

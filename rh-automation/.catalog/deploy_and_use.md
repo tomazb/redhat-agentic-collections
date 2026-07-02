@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Prerequisites
@@ -26,7 +26,7 @@ Do **not** commit real hostnames or tokens; **`mcps.json`** must keep **`${AAP_M
 lola install -f rh-automation
 ```
 
-Module path: **`rh-automation`** in **`marketplace/rh-agentic-collection.yml`**. See the root [README.md](../../README.md) for marketplace setup.
+Module path: **`rh-automation`** in **`marketplace/rh-agentic-collection.yml`** ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)). See the root [README.md](../../README.md) for marketplace setup.
 
 ### Installation (Claude Code)
 

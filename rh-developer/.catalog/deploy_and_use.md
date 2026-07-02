@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Prerequisites
@@ -39,7 +39,7 @@ export LIGHTSPEED_CLIENT_SECRET="your-service-account-client-secret"
 lola install -f rh-developer
 ```
 
-Module path: `rh-developer` in `marketplace/rh-agentic-collection.yml`. See the root [README.md](../../README.md) for full prerequisites and MCP notes.
+Module path: `rh-developer` in `marketplace/rh-agentic-collection.yml` ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)). See the root [README.md](../../README.md) for full prerequisites and MCP notes.
 
 ### Installation (Claude Code)
 

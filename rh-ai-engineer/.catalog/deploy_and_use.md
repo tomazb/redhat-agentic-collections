@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Prerequisites
@@ -39,7 +39,7 @@ Omit or leave unset if you rely on **`openshift`** / **`rhoai`** only; skills sh
 lola install -f rh-ai-engineer
 ```
 
-Module path: **`rh-ai-engineer`** in **`marketplace/rh-agentic-collection.yml`**. See the root [README.md](../../README.md) for full setup.
+Module path: **`rh-ai-engineer`** in **`marketplace/rh-agentic-collection.yml`** ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)). See the root [README.md](../../README.md) for full setup.
 
 ### Installation (Claude Code)
 

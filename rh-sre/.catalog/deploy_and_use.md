@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Prerequisites
@@ -33,7 +33,7 @@ From a checkout of this repository, install the pack with [Lola](https://github.
 lola install -f rh-sre
 ```
 
-The module is declared in **`marketplace/rh-agentic-collection.yml`** (`path: rh-sre`). See the root [README.md](../../README.md) for marketplace setup.
+The module is declared in **`marketplace/rh-agentic-collection.yml`** ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)) (`path: rh-sre`). See the root [README.md](../../README.md) for marketplace setup.
 
 ### Installation (Claude Code)
 

@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Why use this collection instead of calling MCP tools directly?

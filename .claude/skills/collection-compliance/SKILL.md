@@ -48,7 +48,7 @@ allowed-tools: Read Glob Grep Bash
      - `skills/*/SKILL.md` (names, descriptions, scope, orchestration intent)
      - `README.md` (installation, prerequisites, env variables, usage caveats)
      - `AGENTS.md` (persona, routing, global rules, MCP posture)
-     - `marketplace/rh-agentic-collection.yml` (module `path`, module name/description/tags)
+     - `marketplace/rh-agentic-collection.yml` in [agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog) (module `path`, module name/description/tags)
    - Fail review if any of these drift conditions are found:
      - Installation steps differ in substance (for example Lola module IDs/paths mismatch)
      - Required env vars in `mcps.json` are missing or inconsistent in `deploy_and_use`

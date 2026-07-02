@@ -38,7 +38,7 @@ allowed-tools: Read Glob Grep Bash
    - `skills/*/SKILL.md` (frontmatter + body for summaries and orchestration hints)
    - `<pack>/README.md`
    - `<pack>/AGENTS.md` (intent routing → `skills_decision_guide` ideas)
-   - Matching row in `marketplace/rh-agentic-collection.yml` (`path` == pack)
+   - Matching row in `marketplace/rh-agentic-collection.yml` in [agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog) (`path` == pack)
 
 3. **Classify skills** — place each skill in `contents.skills` or `contents.orchestration_skills` using maintainer judgment. Optional hint: `metadata.collection.role: orchestration` in `SKILL.md` frontmatter. Names in YAML **must** match the `skills/<name>/` directory name.
 
@@ -58,7 +58,7 @@ allowed-tools: Read Glob Grep Bash
    - **Install / deploy (`deploy_and_use`):** **inline** (≤ **500** code points) *or* one-line **`#deploy_and_use.md`** ref (see [COLLECTION_SPEC.md](../../COLLECTION_SPEC.md) **install + env + MCP**). If **`mcps.json`** has MCP servers: fragment (or inline) must include prerequisites, **`export`** examples for each **`${VAR}`** name from **`mcps.json`**, Lola/marketplace **`path:`**, and MCP configuration notes; add Claude Code / Cursor install when **`marketplaces`** lists them. Fragments use the HTML provenance banner. Use **`mcps.json`**, not `.mcp.json`.
    - **Other long blocks:** **`documentation_section`**, **`mcp_section`**, and **`security_model`** follow **`deploy_and_use`**: inline markdown (≤ **500** code points) **or** one-line **`#fragment.md`** on that same key (sibling under `.catalog/`; no `.catalog/` prefix in the YAML string).
    - **Publication-style metadata:** **`maturity`** (**required**) — `GREEN` (listed on GitHub Pages catalog) or `ORANGE` (in-repo only until promoted). Also when useful: `support_level`, `author`, `homepage`, `keywords`, `legal_resources` (URLs only).
-   - **`version` / listing fields:** Align `version` and core listing copy with the matching **`marketplace/rh-agentic-collection.yml`** row (`path` == pack); do not bump marketplace YAML from the catalog workflow.
+   - **`version` / listing fields:** Align `version` and core listing copy with the matching **`marketplace/rh-agentic-collection.yml`** row in [agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog) (`path` == pack); do not bump marketplace YAML from the catalog workflow.
    - **Multiline fields:** `contents.description`, all **`summary_markdown`**, and all **`sample_workflows[].workflow`** use **`|`** block scalars (not long single-quoted multiline); content lines are compact unless extra blank lines are deliberate for markdown.
 
 7. **Validate** — `make validate-collection-compliance` before commit.

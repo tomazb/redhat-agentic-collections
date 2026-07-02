@@ -1,6 +1,6 @@
 <!--
   Catalog fragment — maintain via create-collection workflow (assistant + maintainer + PR review).
-  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md, marketplace/rh-agentic-collection.yml
+  Golden sources: skills/*/SKILL.md, README.md, AGENTS.md
 -->
 
 ### Prerequisites
@@ -33,7 +33,7 @@ export KUBECONFIG="/path/to/your/kubeconfig"
 lola install -f ocp-admin
 ```
 
-Module path: **`ocp-admin`** in **`marketplace/rh-agentic-collection.yml`**. See the root [README.md](../../README.md) for full prerequisites and MCP setup.
+Module path: **`ocp-admin`** in **`marketplace/rh-agentic-collection.yml`** ([agentic-catalog](https://github.com/RHEcosystemAppEng/agentic-catalog)). See the root [README.md](../../README.md) for full prerequisites and MCP setup.
 
 ### Installation (Claude Code)
 
