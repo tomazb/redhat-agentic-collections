@@ -8,7 +8,6 @@ and every key from ``docs/plugins.json``, keeping only directory names that exis
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
@@ -86,77 +85,6 @@ def load_marketplace_module_by_path(
     return None
 
 
-MAIN_REPO_URL = "https://github.com/RHEcosystemAppEng/agentic-collections"
-
-FEDERATION_REF_SHA_RE = re.compile(r"^[0-9a-f]{40}$", re.IGNORECASE)
-
-
-def federation_ref_error(ref: Any) -> Optional[str]:
-    """Return an error message when *ref* is missing or not a 40-character commit SHA."""
-    if ref is None or not str(ref).strip():
-        return "ref is required (40-character commit SHA; not a branch or tag name)"
-    value = str(ref).strip()
-    if not FEDERATION_REF_SHA_RE.fullmatch(value):
-        return (
-            f"ref must be a 40-character commit SHA, not a branch or tag (got {value!r})"
-        )
-    return None
-
-
-def normalize_federation_ref(ref: Any) -> str:
-    """Return a lowercase 40-character commit SHA."""
-    err = federation_ref_error(ref)
-    if err:
-        raise ValueError(err)
-    return str(ref).strip().lower()
-
-
-def validate_federated_module_entry(module: Dict[str, Any]) -> List[str]:
-    """Return validation errors for a federated marketplace module entry."""
-    name = module.get("name") or "<unknown>"
-    err = federation_ref_error(module.get("ref"))
-    if err:
-        return [f"{name}: {err}"]
-    return []
-
-
-def load_federated_modules(
-    marketplace_path: Optional[Path] = None,
-) -> List[Dict[str, Any]]:
-    """Return modules whose repository differs from the main repo (federated packs)."""
-    path = marketplace_path or (_repo_root() / DEFAULT_MARKETPLACE)
-    if not path.exists():
-        return []
-    with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
-    modules = data.get("modules") or []
-    if not isinstance(modules, list):
-        return []
-    return [
-        m for m in modules
-        if isinstance(m, dict)
-        and m.get("repository", "").rstrip("/") != MAIN_REPO_URL
-    ]
-
-
-def get_federation_module_dirs(repo_root: Optional[Path] = None) -> List[str]:
-    """Return ``federation/modules/<name>`` paths that have a ``.catalog/collection.yaml`` on disk."""
-    root = repo_root or _repo_root()
-    fed_root = root / "federation" / "modules"
-    if not fed_root.is_dir():
-        return []
-    return sorted(
-        f"federation/modules/{p.name}"
-        for p in fed_root.iterdir()
-        if p.is_dir() and (p / ".catalog" / "collection.yaml").is_file()
-    )
-
-
-def is_federation_module(pack_dir: str) -> bool:
-    """Return ``True`` if *pack_dir* lives under ``federation/modules/``."""
-    return pack_dir.startswith("federation/modules/")
-
-
 def load_plugin_title(pack_dir: str, repo_root: Optional[Path] = None) -> Optional[str]:
     root = repo_root or _repo_root()
     p = root / DEFAULT_PLUGINS_JSON
@@ -205,11 +133,3 @@ def get_docs_pack_dirs(
     return out
 
 
-def get_docs_federation_module_dirs(repo_root: Optional[Path] = None) -> List[str]:
-    """Federation module dirs listed on GitHub Pages (catalog maturity GREEN only)."""
-    root = repo_root or _repo_root()
-    return [
-        p
-        for p in get_federation_module_dirs(root)
-        if load_pack_maturity(p, root) == DOCS_MATURITY_PUBLISH
-    ]
