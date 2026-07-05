@@ -1,7 +1,7 @@
-.PHONY: help install validate validate-structure validate-collection-schema validate-collection-compliance validate-skill-design validate-skill-design-changed validate-mcp-tools clean check-uv
+.PHONY: help install validate validate-structure validate-collection-schema validate-collection-compliance validate-skill-design validate-skill-design-changed validate-mcp-tools package clean check-uv
 
 help:
-	@echo "agentic-plugins"
+	@echo "agentic-collections-skills"
 	@echo ""
 	@echo "Available targets:"
 	@echo "  install                       - Install Python dependencies (requires uv)"
@@ -12,6 +12,7 @@ help:
 	@echo "  validate-skill-design         - Validate all skills (use PACK=rh-sre for a specific pack)"
 	@echo "  validate-skill-design-changed - Validate only changed skills (staged + unstaged, for local dev)"
 	@echo "  validate-mcp-tools            - Validate allowed-tools against live MCP servers (requires podman)"
+	@echo "  package                       - Package skills into ZIPs for ChatGPT upload (output: dist/)"
 	@echo "  clean                         - Remove generated files"
 	@echo ""
 	@echo "Requirements:"
@@ -97,7 +98,10 @@ validate-mcp-tools: check-uv
 	@uv run python scripts/validate_mcp_tools.py $(if $(PACK),$(PACK))
 	@echo "MCP tool validation complete!"
 
+package: check-uv
+	@uv run python scripts/package_skills.py
+
 clean:
 	@echo "Cleaning generated files..."
-	@rm -rf .validate/
+	@rm -rf .validate/ dist/
 	@echo "Cleaned!"
