@@ -5,7 +5,7 @@ license: Apache-2.0
 user_invocable: true
 model: inherit
 color: cyan
-allowed-tools: cve-detail
+allowed-tools: get_cve_by_id
 ---
 
 # Red Hat Support Ticket Severity Helper
@@ -39,7 +39,7 @@ When the user needs to determine the correct severity for a Red Hat support tick
 | Partial loss or workaround exists in production; significant dev/test impact | Sev 3 -- Medium |
 | Minor issue, informational question, low dev/test impact | Sev 4 -- Low |
 
-CVE adjustment: If a CVE is mentioned, call `cve-mcp -> cve-detail`. A Critical or Important CVE with a known exploit on an unpatched production system that is not fully down -> recommend Sev 2, not Sev 3.
+CVE adjustment: If a CVE is mentioned, call `get_cve_by_id` (from `red-hat-security`) with `cve_id`. A Critical or Important CVE with a known exploit on an unpatched production system that is not fully down -> recommend Sev 2, not Sev 3.
 
 ## SLA Reference
 
