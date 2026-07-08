@@ -106,7 +106,7 @@ Execute skills in this order. **MANDATORY**: Use actual Skill tool invocations, 
 
 **Expected**: Validation status including `remediation_status.automated_remediation_available` or `validation_status`.
 
-**Remediatable Gate** (MANDATORY): Trust cve-validation skill output. Do NOT re-interpret raw get_cve response—cve-validation uses advisory_available, remediation, advisories_list (not rules[]). See [cve-validation references/01-remediation-indicators.md](../cve-validation/references/01-remediation-indicators.md).
+**Remediatable Gate** (MANDATORY): Trust cve-validation skill output. Do NOT re-interpret raw get_cve response—cve-validation uses advisory_available, remediation, advisories_list (not rules[]). See [cve-validation references/01-remediation-indicators.md](references/01-remediation-indicators.md).
 - **If remediatable** (`remediation_available: true` or `validation_status: "valid"`): Proceed to Step 3.
 - **If NOT remediatable** (`remediation_available: false` or `validation_status: "not_remediable"`):
   1. Explain: "CVE-XXXX-YYYY has no automated remediation in Red Hat Lightspeed. Execution may have no effect."

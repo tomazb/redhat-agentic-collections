@@ -56,9 +56,9 @@ Create and manage Jupyter notebook workbenches on Red Hat OpenShift AI. Handles 
 - `delete_storage` - Delete a PVC
 - `list_data_connections` - List data connections available to attach
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Important**: Do NOT use `list_notebook_images` (from rhoai) — it returns incorrect hardcoded image names that cause broken deployments. Always use the ImageStream lookup pattern described below.
 
@@ -128,7 +128,7 @@ Extract from each ImageStream:
 
 **Present to user** as a selection table showing Image Name, Tag, and Display Name.
 
-See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#notebook-image-discovery-imagestream-lookup) for the complete pattern.
+See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#notebook-image-discovery-imagestream-lookup) for the complete pattern.
 
 **Present available images** in a table:
 
@@ -167,7 +167,7 @@ See [openshift-fallback-templates.md](../references/openshift-fallback-templates
 **Parameters**:
 - `namespace`: target namespace - REQUIRED
 
-**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#pvc-for-workbench-storage).
+**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#pvc-for-workbench-storage).
 
 If a suitable PVC already exists, ask user if they want to reuse it or create a new one.
 
@@ -181,7 +181,7 @@ If a suitable PVC already exists, ask user if they want to reuse it or create a 
 - `size`: storage size from Step 2 (e.g., `"20Gi"`) - REQUIRED
 - `access_mode`: `"ReadWriteOnce"` - REQUIRED (default, single-pod access)
 
-**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#pvc-for-workbench-storage).
+**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#pvc-for-workbench-storage).
 
 **Verify creation:**
 
@@ -272,7 +272,7 @@ Confirm the workbench is currently stopped. If already running, report its URL a
 - `namespace`: target namespace - REQUIRED
 - `name`: workbench name - REQUIRED
 
-**If rhoai unavailable or returns error (e.g., "Unsupported Media Type")**: Patch the Notebook CR annotation via `resources_create_or_update` (from openshift) to remove the `kubeflow-resource-stopped` annotation (set to null or empty). See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#workbench-startstop-annotation-patch).
+**If rhoai unavailable or returns error (e.g., "Unsupported Media Type")**: Patch the Notebook CR annotation via `resources_create_or_update` (from openshift) to remove the `kubeflow-resource-stopped` annotation (set to null or empty). See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#workbench-startstop-annotation-patch).
 
 **MCP Tool**: `get_workbench_url` (from rhoai)
 
@@ -292,7 +292,7 @@ Confirm the workbench is currently stopped. If already running, report its URL a
 - `namespace`: target namespace - REQUIRED
 - `name`: workbench name - REQUIRED
 
-**If rhoai unavailable or returns error**: Patch the Notebook CR via `resources_create_or_update` (from openshift) to set annotation `kubeflow-resource-stopped: "true"`. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#workbench-startstop-annotation-patch).
+**If rhoai unavailable or returns error**: Patch the Notebook CR via `resources_create_or_update` (from openshift) to set annotation `kubeflow-resource-stopped: "true"`. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#workbench-startstop-annotation-patch).
 
 **Verify state change:**
 
@@ -359,7 +359,7 @@ If user confirms PVC deletion:
 - `namespace`: target namespace - REQUIRED
 - `name`: PVC name - REQUIRED
 
-**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#pvc-for-workbench-storage).
+**If rhoai unavailable or returns error**: Use `resources_list`/`resources_create_or_update`/`resources_delete` (from openshift) for PersistentVolumeClaim resources. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#pvc-for-workbench-storage).
 
 If user declines, report: "PVC `[pvc_name]` preserved. It can be reattached to a new workbench."
 
@@ -367,7 +367,7 @@ If user declines, report: "PVC `[pvc_name]` preserved. It can be reattached to a
 
 ## Common Issues
 
-For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](../references/common-issues.md).
+For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](references/common-issues.md).
 
 ### Issue 1: Notebook Image Not Found
 
@@ -388,7 +388,7 @@ For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [com
 
 **Solution**: This tool has been replaced. Use the ImageStream lookup pattern via OpenShift MCP to discover correct image names. Patch the stuck Notebook CR with the correct image reference from the ImageStream, then delete the stuck pod to force rescheduling.
 
-See [common-issues.md](../references/common-issues.md#notebook-image-names-mismatch) for details.
+See [common-issues.md](references/common-issues.md#notebook-image-names-mismatch) for details.
 
 ### Issue 2: PVC Binding Failure
 
@@ -427,7 +427,7 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 - `/ai-observability` - Check GPU inventory before requesting GPU workbenches
 
 ### Reference Documentation
-- [skill-conventions.md](../references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
+- [skill-conventions.md](references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
 
 ## Example Usage
 
@@ -437,7 +437,7 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - Before creating workbench (Step 4): display full configuration table, confirm

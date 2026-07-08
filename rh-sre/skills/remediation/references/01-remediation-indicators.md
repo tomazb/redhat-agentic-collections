@@ -1,0 +1,1 @@
+../../cve-validation/references/01-remediation-indicators.md

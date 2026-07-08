@@ -47,7 +47,7 @@ This skill queries Red Hat Lightspeed to retrieve and display information about 
 
 See **Step 0** in the Workflow section below for implementation details.
 
-**Validation freshness**: Can skip if already validated in this session. See [Validation Freshness Policy](../mcp-lightspeed-validator/SKILL.md#validation-freshness-policy).
+**Validation freshness**: Can skip if already validated in this session..
 
 ## When to Use This Skill
 
@@ -73,7 +73,7 @@ See **Step 0** in the Workflow section below for implementation details.
 
 **Action**: Execute the `/mcp-lightspeed-validator` skill
 
-**Note**: Can skip if validation was performed earlier in this session and succeeded. See [Validation Freshness Policy](../mcp-lightspeed-validator/SKILL.md#validation-freshness-policy).
+**Note**: Can skip if validation was performed earlier in this session and succeeded..
 
 **How to invoke**: Execute the `/mcp-lightspeed-validator` skill
 

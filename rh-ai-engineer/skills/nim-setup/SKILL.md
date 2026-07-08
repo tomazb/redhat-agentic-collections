@@ -41,7 +41,7 @@ Configure the NVIDIA NIM platform on OpenShift AI. This is a one-time setup that
 
 **Optional MCP Server**: `ai-observability` (for `get_gpu_info` to verify GPU availability)
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
 **Required User Input**:
 - NGC API key (from https://ngc.nvidia.com)
@@ -307,7 +307,7 @@ If `ai-observability` MCP server is available, use `get_gpu_info` to report clus
 
 ## Common Issues
 
-For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](../references/common-issues.md).
+For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](references/common-issues.md).
 
 ### Issue 1: Account CR Stuck in "Pending"
 
@@ -364,11 +364,11 @@ When handing off to `/model-deploy` after NIM setup, note these NIM-specific con
 
 ### Reference Documentation
 - [supported-runtimes.md](docs/references/supported-runtimes.md) - NIM runtime capabilities and requirements
-- [live-doc-lookup.md](../references/live-doc-lookup.md) - Protocol for fetching current RHOAI/NIM documentation
+- [live-doc-lookup.md](references/live-doc-lookup.md) - Protocol for fetching current RHOAI/NIM documentation
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - Before creating each Secret: display manifest (credentials REDACTED), confirm

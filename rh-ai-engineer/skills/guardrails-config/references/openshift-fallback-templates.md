@@ -1,0 +1,1 @@
+../../references/openshift-fallback-templates.md

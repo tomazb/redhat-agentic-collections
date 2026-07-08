@@ -51,9 +51,9 @@ Bootstrap a Red Hat OpenShift AI Data Science Project from scratch. Creates a na
 
 Note: `create_pipeline_server` is intentionally excluded — it constructs invalid DSPA manifests. Pipeline server creation always uses OpenShift direct.
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Additional cluster requirements**:
 - Cluster admin or namespace creation privileges for the user
@@ -120,7 +120,7 @@ Note: `create_pipeline_server` is intentionally excluded — it constructs inval
 - `display_name`: human-readable display name - REQUIRED
 - `description`: project description - OPTIONAL
 
-**If rhoai unavailable or returns error**: Use `resources_create_or_update` (from openshift) to create the Namespace with RHOAI labels. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#data-science-project-namespace) for the YAML template.
+**If rhoai unavailable or returns error**: Use `resources_create_or_update` (from openshift) to create the Namespace with RHOAI labels. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#data-science-project-namespace) for the YAML template.
 
 **Verify creation:**
 
@@ -178,7 +178,7 @@ Skip this step if user declined data connections in Step 1.
 - `secret_key`: secret access key - REQUIRED
 - `region`: AWS region - OPTIONAL (omit for non-AWS S3)
 
-**If rhoai unavailable or returns error**: Use `resources_create_or_update` (from openshift) to create the Secret with S3 annotations. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#s3-data-connection-secret) for the YAML template.
+**If rhoai unavailable or returns error**: Use `resources_create_or_update` (from openshift) to create the Secret with S3 annotations. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#s3-data-connection-secret) for the YAML template.
 
 **Verify creation:**
 
@@ -225,7 +225,7 @@ If pipeline server already exists, report its status and ask if user wants to re
 
 **MCP Tool**: `resources_create_or_update` (from openshift)
 
-Create a DataSciencePipelinesApplication CR using the template from [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#datasciencepipelinesapplication-dspa).
+Create a DataSciencePipelinesApplication CR using the template from [openshift-fallback-templates.md](references/openshift-fallback-templates.md#datasciencepipelinesapplication-dspa).
 
 **Parameters to fill in the template:**
 - `namespace`: target namespace
@@ -352,7 +352,7 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 - `/serving-runtime-config` - Configure custom serving runtimes in the project
 
 ### Reference Documentation
-- [skill-conventions.md](../references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
+- [skill-conventions.md](references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
 
 ## Example Usage
 
@@ -362,7 +362,7 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - After project name existence check (Step 1): if project exists, confirm whether to configure existing or choose new name

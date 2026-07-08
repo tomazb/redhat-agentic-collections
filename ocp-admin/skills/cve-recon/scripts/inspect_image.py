@@ -1,0 +1,1 @@
+../../../scripts/security-validation/inspect_image.py

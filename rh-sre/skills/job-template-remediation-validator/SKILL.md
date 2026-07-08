@@ -38,7 +38,7 @@ This skill verifies that an AAP (Ansible Automation Platform) job template meets
 
 **CRITICAL**: Before executing, execute the `/mcp-aap-validator` skill to verify AAP MCP server availability.
 
-**Validation freshness**: Can skip if already validated in this session. See [Validation Freshness Policy](../mcp-aap-validator/SKILL.md#validation-freshness-policy).
+**Validation freshness**: Can skip if already validated in this session..
 
 **How to invoke**: Execute the `/mcp-aap-validator` skill
 
@@ -69,7 +69,7 @@ If prerequisites are not met:
 
 ## Remediation Template Requirements
 
-This skill validates against the requirements documented in [playbook-executor](../playbook-executor/SKILL.md) and [job-template-creator](../job-template-creator/SKILL.md).
+This skill validates against the requirements documented in the `playbook-executor` and `job-template-creator` skills.
 
 ### Required (Must Pass)
 
@@ -278,8 +278,8 @@ recommended_checks.append(("Ask Inventory on Launch", template.get("ask_inventor
 - `job-template-creator` - Creates templates that this skill validates
 
 ### Reference Documentation
-- [playbook-executor/SKILL.md](../playbook-executor/SKILL.md) - Template compatibility requirements (Phase 1 Step 1.2, Scenario 3 validation)
-- [job-template-creator/SKILL.md](../job-template-creator/SKILL.md) - Template configuration for remediation
+- `playbook-executor` skill - Template compatibility requirements (Phase 1 Step 1.2, Scenario 3 validation)
+- `job-template-creator` skill - Template configuration for remediation
 - [AAP Job Templates](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/using_automation_execution/controller-job-templates)
 
 ## Critical: Human-in-the-Loop Requirements

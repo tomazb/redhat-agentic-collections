@@ -35,7 +35,7 @@ If the image reference is missing or invalid, ask the user to provide it. Do not
 
 **Resolve scripts directory:**
 ```bash
-SCRIPTS_DIR="$(git rev-parse --show-toplevel)/ocp-admin/scripts/security-validation"
+SCRIPTS_DIR="scripts"
 test -f "$SCRIPTS_DIR/inspect_image.py" || { echo "Error: Scripts directory not found at $SCRIPTS_DIR"; exit 1; }
 ```
 The scripts handle tool checks internally (regctl, cosign) and return clear errors if tools are missing.
