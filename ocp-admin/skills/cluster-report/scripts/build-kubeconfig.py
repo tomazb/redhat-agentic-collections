@@ -1,0 +1,1 @@
+../../../scripts/cluster-report/build-kubeconfig.py

@@ -1,0 +1,1 @@
+../../../scripts/security-validation/fetch_redhat_vex.py

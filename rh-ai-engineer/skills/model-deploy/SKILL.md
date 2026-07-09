@@ -54,9 +54,9 @@ Deploy AI/ML models on Red Hat OpenShift AI using KServe. Supports vLLM, NVIDIA 
 - `get_deployment_info` - Post-deployment validation
 - `analyze_vllm` - Verify metrics are flowing after deployment
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, KServe, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, KServe, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Additional cluster requirements**:
 - For NIM runtime: NIM platform set up via `/nim-setup`
@@ -153,7 +153,7 @@ After the environment is validated, collect remaining deployment configuration. 
 - Present to user
 
 **If model is NOT in known-model-profiles.md -> Trigger live doc lookup:**
-1. **Action**: Read [live-doc-lookup.md](../references/live-doc-lookup.md) using the Read tool for the lookup protocol
+1. **Action**: Read [live-doc-lookup.md](references/live-doc-lookup.md) using the Read tool for the lookup protocol
 2. **Output to user**: "Model [model-name] is not in my cached profiles. I'll look up its hardware requirements."
 3. Use **WebFetch** tool to retrieve specs from:
    - For NIM models: `https://build.nvidia.com/models` or `https://docs.nvidia.com/nim/large-language-models/latest/supported-models.html`
@@ -281,13 +281,13 @@ Add tolerations to `spec.predictor.tolerations` matching the discovered taints. 
 
 After patching, delete the stuck Pending pod to force rescheduling with the new tolerations.
 
-See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#toleration-post-deploy-patch) for the complete pattern.
+See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#toleration-post-deploy-patch) for the complete pattern.
 
 #### NIM Deployment via OpenShift
 
 When deploying with NIM runtime and `deploy_model` does not support NIM-specific env vars (NGC_API_KEY secretKeyRef, NIM_MAX_MODEL_LEN, image pull secrets):
 
-Use `resources_create_or_update` (from openshift) with the NIM InferenceService template from [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#inferenceservice-nim).
+Use `resources_create_or_update` (from openshift) with the NIM InferenceService template from [openshift-fallback-templates.md](references/openshift-fallback-templates.md#inferenceservice-nim).
 
 **Key NIM-specific fields:**
 - `spec.predictor.containers[0].env` with NGC_API_KEY from secretKeyRef
@@ -343,7 +343,7 @@ Show deployment progress tracking: Pod Scheduled, Image Pulled, Container Starte
 
 ## Common Issues
 
-For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](../references/common-issues.md).
+For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](references/common-issues.md).
 
 ### Issue 1: InferenceService Stuck in "Unknown"
 
@@ -407,7 +407,7 @@ For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [com
 
 **Cause**: `deploy_model` does not support tolerations. GPU nodes in production clusters are almost always tainted.
 
-**Solution**: Patch InferenceService with tolerations matching the GPU node taints, then delete the stuck pod. See [common-issues.md](../references/common-issues.md#deploy-model-missing-gpu-tolerations) for details.
+**Solution**: Patch InferenceService with tolerations matching the GPU node taints, then delete the stuck pod. See [common-issues.md](references/common-issues.md#deploy-model-missing-gpu-tolerations) for details.
 
 ### Issue: NIM CUDA Driver Incompatibility
 
@@ -443,11 +443,11 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 ### Reference Documentation
 - [known-model-profiles.md](docs/references/known-model-profiles.md) - Hardware profiles for common models
 - [supported-runtimes.md](docs/references/supported-runtimes.md) - Runtime capabilities and selection criteria
-- [live-doc-lookup.md](../references/live-doc-lookup.md) - Protocol for fetching specs for unknown models
+- [live-doc-lookup.md](references/live-doc-lookup.md) - Protocol for fetching specs for unknown models
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - After pre-flight validation (Step 1): confirm if significant adjustments were needed (deployment mode, tolerations, resource changes)

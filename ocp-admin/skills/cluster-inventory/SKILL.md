@@ -47,7 +47,7 @@ List and inspect OpenShift clusters across all types (OCP, SNO, ROSA, ARO, OSD).
 
 ## Prerequisites
 
-**Required MCP Servers**: `openshift-self-managed`, `openshift-ocm-managed` ([setup guide](../../README.md))
+**Required MCP Servers**: `openshift-self-managed`, `openshift-ocm-managed`
 
 **Required MCP Tools**:
 - `list_clusters` (from both servers) - Lists clusters (auto-routes to correct API)
@@ -224,8 +224,8 @@ Execute when user requests events, troubleshoots errors, or needs installation l
 ## Dependencies
 
 ### Required MCP Servers
-- `openshift-self-managed` - Assisted Installer service for OCP/SNO ([setup](../../README.md))
-- `openshift-ocm-managed` - OCM service for ROSA/ARO/OSD ([setup](../../README.md))
+- `openshift-self-managed` - Assisted Installer service for OCP/SNO
+- `openshift-ocm-managed` - OCM service for ROSA/ARO/OSD
 
 ### Required MCP Tools
 - `list_clusters` (from both servers) - Lists clusters (auto-routes to correct API)

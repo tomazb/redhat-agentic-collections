@@ -42,7 +42,7 @@ metadata:
 
 ## Prerequisites
 
-**Required MCP Servers**: `openshift-self-managed` ([setup guide](../README.md#environment-setup))
+**Required MCP Servers**: `openshift-self-managed`
 
 **MCP Server Architecture**:
 This skill uses `openshift-self-managed` MCP server exclusively. This server connects to Red Hat Assisted Installer API to create self-managed OpenShift clusters.
@@ -440,7 +440,7 @@ Congratulations!
 ## Dependencies
 
 ### Required MCP Servers
-- `openshift-self-managed` - Red Hat Assisted Installer service for self-managed clusters ([setup](../README.md#environment-setup))
+- `openshift-self-managed` - Red Hat Assisted Installer service for self-managed clusters
 
 **Important**: This skill uses ONLY `openshift-self-managed` MCP server. Do NOT use `openshift-ocm-managed` (that server is for ROSA/ARO/OSD managed service clusters, not for OCP/SNO self-managed clusters).
 

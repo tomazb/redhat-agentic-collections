@@ -1,0 +1,1 @@
+../../../scripts/security-validation/fetch_rhsa_advisory.py

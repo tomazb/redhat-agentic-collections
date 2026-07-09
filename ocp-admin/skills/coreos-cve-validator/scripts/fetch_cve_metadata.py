@@ -1,0 +1,1 @@
+../../../scripts/security-validation/fetch_cve_metadata.py

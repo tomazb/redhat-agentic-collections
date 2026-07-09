@@ -48,9 +48,9 @@ allowed-tools: resources_get resources_list resources_create_or_update pods_list
 **Optional MCP Tools** (from ai-observability):
 - `execute_promql` - Custom PromQL queries for TrustyAI metrics validation
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, KServe, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, KServe, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Additional cluster requirements**:
 - TrustyAI operator enabled in the DataScienceCluster CR
@@ -210,7 +210,7 @@ Present summary showing: TrustyAI status, configured metrics with thresholds, Pr
 
 ## Common Issues
 
-For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](../references/common-issues.md).
+For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](references/common-issues.md).
 
 ### Issue 1: TrustyAI Pod CrashLoopBackOff
 
@@ -262,7 +262,7 @@ See [Prerequisites](#prerequisites) for the complete list of required and option
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - After gathering requirements (Step 2): confirm monitoring configuration

@@ -46,7 +46,7 @@ This skill helps SREs create AAP job templates for executing Ansible playbooks, 
 
 **CRITICAL**: Before executing operations, execute the `/mcp-aap-validator` skill to verify AAP MCP server availability.
 
-**Validation freshness**: Can skip if already validated in this session. See [Validation Freshness Policy](../mcp-aap-validator/SKILL.md#validation-freshness-policy).
+**Validation freshness**: Can skip if already validated in this session..
 
 **How to invoke**: Execute the `/mcp-aap-validator` skill
 
@@ -81,7 +81,7 @@ This skill documents both the **current manual workflow** and the **intended aut
 
 ## Invocation from playbook-executor
 
-When invoked from the [playbook-executor](../playbook-executor/SKILL.md) skill (Scenario 3 - No suitable template), this skill receives playbook content in context. The playbook-executor invokes with an instruction such as:
+When invoked from the `playbook-executor` skill (Scenario 3 - No suitable template), this skill receives playbook content in context. The playbook-executor invokes with an instruction such as:
 
 ```
 Create a job template for this remediation playbook. Playbook: [content]. Filename: [filename]. Path: [our_playbook_path]. CVE: [cve_id]. Target systems: [list].
@@ -102,7 +102,7 @@ Create a job template for this remediation playbook. Playbook: [content]. Filena
 
 **Action**: Execute the `/mcp-aap-validator` skill
 
-**Note**: Can skip if validation was performed earlier in this session and succeeded. See [Validation Freshness Policy](../mcp-aap-validator/SKILL.md#validation-freshness-policy).
+**Note**: Can skip if validation was performed earlier in this session and succeeded..
 
 **How to invoke**: Execute the `/mcp-aap-validator` skill
 

@@ -1,0 +1,1 @@
+../../../scripts/security-validation/download_sbom.py

@@ -48,7 +48,7 @@ This skill executes Ansible remediation playbooks through AAP (Ansible Automatio
 
 **CRITICAL**: Before executing operations, execute the `/mcp-aap-validator` skill to verify AAP MCP server availability.
 
-**Validation freshness**: Can skip if already validated in this session. See [Validation Freshness Policy](../mcp-aap-validator/SKILL.md#validation-freshness-policy).
+**Validation freshness**: Can skip if already validated in this session..
 
 **How to invoke**: Execute the `/mcp-aap-validator` skill
 

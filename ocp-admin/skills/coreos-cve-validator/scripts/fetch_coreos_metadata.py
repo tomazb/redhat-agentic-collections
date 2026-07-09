@@ -1,0 +1,1 @@
+../../../scripts/security-validation/fetch_coreos_metadata.py

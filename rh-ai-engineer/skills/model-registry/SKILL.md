@@ -46,9 +46,9 @@ Register, version, and manage ML models in the Red Hat OpenShift AI Model Regist
 - `list_data_science_projects` - Validate namespace is an RHOAI Data Science Project
 - `list_data_connections` - Verify S3 data connections exist in target namespace (for promotion)
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Important**: Model Registry RHOAI tools may fail with DNS/connection errors because the RHOAI MCP server runs outside the cluster and cannot resolve internal service DNS names. If this happens:
 1. Check if an external Route exists: `resources_list` (from openshift) Routes in the model registry namespace
@@ -206,7 +206,7 @@ Delegate to `/model-deploy` with the extracted storage URI and model format.
 
 **Cause**: The RHOAI MCP server runs outside the cluster and cannot resolve cluster-internal DNS. External routes may also be behind an OAuth proxy.
 
-**Solution**: See [common-issues.md](../references/common-issues.md#model-registry-internal-dns-unreachable) for port-forwarding and Route-based solutions.
+**Solution**: See [common-issues.md](references/common-issues.md#model-registry-internal-dns-unreachable) for port-forwarding and Route-based solutions.
 
 ### Issue 3: Artifact Storage Inaccessible During Promotion
 **Cause**: PVC-based storage is namespace-local; S3 credentials may not exist in the target namespace.
@@ -225,11 +225,11 @@ See [Prerequisites](#prerequisites) for the complete list of required MCP tools.
 - `/pipeline-manage` - Automate model training and registration pipelines
 
 ### Reference Documentation
-- [skill-conventions.md](../references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
+- [skill-conventions.md](references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - Before registering a model (Step 4): display metadata table, confirm

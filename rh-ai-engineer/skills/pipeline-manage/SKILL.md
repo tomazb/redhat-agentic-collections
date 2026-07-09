@@ -53,9 +53,9 @@ Create, run, schedule, and monitor Data Science Pipelines (Kubeflow Pipelines 2.
 - `list_data_connections` - Verify S3 data connections for pipeline artifact storage
 - `project_summary` - Project overview including pipeline status
 
-**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](../references/skill-conventions.md).
+**Common prerequisites** (KUBECONFIG, OpenShift+RHOAI cluster, verification protocol): See [skill-conventions.md](references/skill-conventions.md).
 
-**Fallback templates**: See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
+**Fallback templates**: See [openshift-fallback-templates.md](references/openshift-fallback-templates.md) for OpenShift YAML templates used when RHOAI tools are unavailable.
 
 **Additional cluster requirements**:
 - Target namespace is an RHOAI Data Science Project (label: `opendatahub.io/dashboard: "true"`)
@@ -107,7 +107,7 @@ Check via `get_pipeline_server` (from rhoai) with `namespace`. If healthy, proce
 
 **MCP Tool**: `resources_create_or_update` (from openshift)
 
-Create a DataSciencePipelinesApplication CR. See [openshift-fallback-templates.md](../references/openshift-fallback-templates.md#datasciencepipelinesapplication-dspa) for the YAML template.
+Create a DataSciencePipelinesApplication CR. See [openshift-fallback-templates.md](references/openshift-fallback-templates.md#datasciencepipelinesapplication-dspa) for the YAML template.
 
 **Parameters to fill in the template:**
 - `namespace`: target namespace
@@ -245,7 +245,7 @@ Display warning: deleting the DSPA removes all pipeline runs, history, API/UI en
 
 ## Common Issues
 
-For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](../references/common-issues.md).
+For common issues (GPU scheduling, OOMKilled, image pull errors, RBAC), see [common-issues.md](references/common-issues.md).
 
 ### Issue 1: Pipeline Server Not Ready
 **Cause**: Invalid S3 credentials, unreachable S3 endpoint, or database connectivity issues.
@@ -280,11 +280,11 @@ See [Prerequisites](#prerequisites) for the complete list of required MCP tools.
 - `/debug-inference` - Debug models deployed from pipeline outputs
 
 ### Reference Documentation
-- [skill-conventions.md](../references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
+- [skill-conventions.md](references/skill-conventions.md) - Shared prerequisite, HITL, and security conventions
 
 ## Critical: Human-in-the-Loop Requirements
 
-See [skill-conventions.md](../references/skill-conventions.md) for general HITL and security conventions.
+See [skill-conventions.md](references/skill-conventions.md) for general HITL and security conventions.
 
 **Skill-specific checkpoints:**
 - Before creating pipeline server (Step 2): display S3 storage configuration, confirm

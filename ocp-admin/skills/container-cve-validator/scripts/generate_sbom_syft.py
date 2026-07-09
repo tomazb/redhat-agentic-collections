@@ -1,0 +1,1 @@
+../../../scripts/security-validation/generate_sbom_syft.py

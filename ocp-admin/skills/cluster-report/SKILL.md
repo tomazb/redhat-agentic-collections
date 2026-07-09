@@ -38,7 +38,7 @@ Generate a unified health and resource report across multiple OpenShift/Kubernet
 
 ## Prerequisites
 
-**Required MCP Servers**: `openshift-administration` ([setup guide](../../README.md#environment-setup))
+**Required MCP Servers**: `openshift-administration`
 
 **MCP Server Architecture**:
 This skill uses `openshift-administration` MCP server exclusively. This server provides multi-cluster administration and reporting capabilities for both OpenShift and Kubernetes clusters.
@@ -60,11 +60,11 @@ This skill uses `openshift-administration` MCP server exclusively. This server p
 
 **Required Environment Variables**: `KUBECONFIG` — must contain at least one cluster context. Two or more recommended for comparison.
 
-**Multi-Cluster Setup**: For large-scale deployments using service account tokens instead of interactive `oc login`, see [multi-cluster-auth.md](docs/multi-cluster-auth.md) and the [build-kubeconfig.py](../../scripts/cluster-report/build-kubeconfig.py) helper script.
+**Multi-Cluster Setup**: For large-scale deployments using service account tokens instead of interactive `oc login`, see [multi-cluster-auth.md](docs/multi-cluster-auth.md) and the [build-kubeconfig.py](scripts/build-kubeconfig.py) helper script.
 
 **Helper Scripts** (Python 3, stdlib only — auditable, do not reimplement):
-- [`assemble.py`](../../scripts/cluster-report/assemble.py) — resolves `$file` references into complete raw data JSON
-- [`aggregate.py`](../../scripts/cluster-report/aggregate.py) — aggregates raw data into structured report JSON
+- [`assemble.py`](scripts/assemble.py) — resolves `$file` references into complete raw data JSON
+- [`aggregate.py`](scripts/aggregate.py) — aggregates raw data into structured report JSON
 
 **Script Usage Rules**:
 - Invoke scripts via the documented pipeline (Step 3) — do NOT reimplement their logic inline
@@ -265,7 +265,7 @@ Fields may also be inlined as raw text strings or set to `null` for failed/unava
 Run the assembly and aggregation pipeline:
 
 ```bash
-python3 ocp-admin/scripts/cluster-report/assemble.py --aggregate < /tmp/cluster-report-manifest.json
+python3 scripts/assemble.py --aggregate < /tmp/cluster-report-manifest.json
 ```
 
 If the pipeline exits with code 1, display the error JSON to the user and stop.
@@ -357,7 +357,7 @@ Would you like to:
 ## Dependencies
 
 ### Required MCP Servers
-- `openshift-administration` - Multi-cluster administration and reporting ([setup](../../README.md#environment-setup))
+- `openshift-administration` - Multi-cluster administration and reporting
 
 **Important**: This skill uses ONLY `openshift-administration` MCP server for querying existing cluster resources via KUBECONFIG. The cluster creation/inventory servers (`openshift-self-managed`, `openshift-ocm-managed`) are not needed for this skill as it operates on already-configured clusters.
 
@@ -377,8 +377,8 @@ Would you like to:
   - Parameters: `context`
 
 ### Helper Scripts
-- [`ocp-admin/scripts/cluster-report/assemble.py`](../../scripts/cluster-report/assemble.py)
-- [`ocp-admin/scripts/cluster-report/aggregate.py`](../../scripts/cluster-report/aggregate.py)
+- [`assemble.py`](scripts/assemble.py)
+- [`aggregate.py`](scripts/aggregate.py)
 
 ### Related Skills
 - `/cluster-inventory` - List and inspect individual clusters
