@@ -83,8 +83,8 @@ to take effect.
 ## Notes
 
 - This server exposes Red Hat security data (CVEs, advisories, errata). It
-  is the backend used by `/red-hat-cve-explainer` when the `cve-mcp` tool is
-  available.
+  is the backend used by `/red-hat-cve-explainer` when `get_cve_by_id` and
+  related tools are available.
 - An active Red Hat subscription is required to access the full dataset.
 - Do not add `headers` or `env` auth fields to `.mcp.json` -- the server
   handles authentication itself via the browser SSO flow.
